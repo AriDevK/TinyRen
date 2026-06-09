@@ -1,11 +1,7 @@
-html {
-    background-color: rgba(27, 38, 54, 1);
-    text-align: center;
-    color: white;
-}
-
 body {
-    margin: 0;
+    margin: 0 !important;
+    margin-top: 0 !important;
+    padding: 0;
     color: white;
     font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -22,5 +18,6 @@ body {
 
 #app {
     height: 100vh;
+    width: 100vw;
     text-align: center;
 }
