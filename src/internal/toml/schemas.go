@@ -23,6 +23,13 @@ type Settings struct {
 	Fullscreen bool `toml:"fullscreen"`
 }
 
+func (s Settings) GetWindowStartState() int {
+	if s.Fullscreen {
+		return 3
+	}
+	return 0
+}
+
 type Scene struct {
 	Index      int    `toml:"index"`
 	Background string `toml:"background"`

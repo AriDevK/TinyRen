@@ -13,31 +13,11 @@ import (
 var assets embed.FS
 
 func main() {
-	path := "#TEMPORAL UNAVAILABLE"
+	path := "#TODO: get path from args or config"
 	o, err := toml.NewOrchestrator(path)
 	if err != nil {
 		println("Error:", err.Error())
 		return
-	}
-
-	println("Globals:")
-	global := o.Global
-	println("Global Title:", global.Info.Title)
-	println("Global Description:", global.Info.Description)
-	println("Global Version:", global.Info.Version)
-	println("Global Author:", global.Info.Author)
-	println("Global Width:", global.Settings.Width)
-	println("Global Height:", global.Settings.Height)
-	println("Global Fullscreen:", global.Settings.Fullscreen)
-	println("-----")
-
-	println("\nScenes:")
-	for key, scene := range o.Scenes {
-		println("Scene Key:", key)
-		println("Scene Index:", scene.Index)
-		println("Scene Background:", scene.Background)
-		println("Scene Msg:", scene.Msg)
-		println("-----")
 	}
 
 	// // Create an instance of the app structure
@@ -56,6 +36,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 		},
+		WindowStartState: options.WindowStartState(o.Global.Settings.GetWindowStartState()),
 	})
 
 	if err != nil {
