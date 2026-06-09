@@ -8,16 +8,22 @@
     box-sizing: border-box;
     z-index: 1000000; 
     height: 25vh;
+    user-select: none;
+    pointer-events: none;
 }   
 
 .speaker {
     font-weight: bold;
     font-size: 1.15em;
+    user-select: none;
+    pointer-events: none;
 }
 
 .text {
     margin-top: 5px !important;
     padding-top: 0 !important;
+    user-select: none;
+    pointer-events: none;
 }
 
 .nextButton {
