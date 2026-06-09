@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-// import logo from './assets/images/logo-universal.png';
 import './App.css';
 import { Greet, GetBackground, GetScene } from "../wailsjs/go/main/App";
+import Character from './components/Character';
 
 function App() {
     const [scene, setScene] = useState(null);
@@ -31,21 +31,8 @@ function App() {
                 backgroundSize: "cover",
             }}
         >
-            <div id="character-sprite"
-                style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    zIndex: 1,
-                    maxHeight: "100%",
-                    zoom: "0.8",
-                }}
-            >
-                {scene && scene.Characters.map((character, index) => (
-                    <img key={index} src={character.Sprite.replace('@', '')} alt={character.Name} />
-                ))}
-            </div>
+            <Character character={scene && scene.Characters[0]} zIndex={1} />
+            <Character character={scene && scene.Characters[1]} zIndex={2} />
         </div>
     )
 }

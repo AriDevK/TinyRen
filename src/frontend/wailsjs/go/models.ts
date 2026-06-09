@@ -3,6 +3,7 @@ export namespace toml {
 	export class Character {
 	    Name: string;
 	    Sprite: string;
+	    Animation: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Character(source);
@@ -12,6 +13,7 @@ export namespace toml {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Name = source["Name"];
 	        this.Sprite = source["Sprite"];
+	        this.Animation = source["Animation"];
 	    }
 	}
 	export class Scene {

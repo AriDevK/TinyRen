@@ -38,6 +38,7 @@ type Scene struct {
 }
 
 type Character struct {
-	Name   string `toml:"name"`
-	Sprite string `toml:"sprite"`
+	Name      string `toml:"name"`
+	Sprite    string `toml:"sprite"`
+	Animation string `toml:"animation"`
 }
