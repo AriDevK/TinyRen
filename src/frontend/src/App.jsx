@@ -26,12 +26,26 @@ function App() {
         <div id="App"
             style={{
                 background: background,
-                width: "100%",
+                width: "100vw",
                 height: "100vh",
                 backgroundSize: "cover",
-                backgroundPosition: "center",
             }}
         >
+            <div id="character-sprite"
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    zIndex: 1,
+                    maxHeight: "100%",
+                    zoom: "0.8",
+                }}
+            >
+                {scene && scene.Characters.map((character, index) => (
+                    <img key={index} src={character.Sprite.replace('@', '')} alt={character.Name} />
+                ))}
+            </div>
         </div>
     )
 }

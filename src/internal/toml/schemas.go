@@ -31,7 +31,13 @@ func (s Settings) GetWindowStartState() int {
 }
 
 type Scene struct {
-	Index      int    `toml:"index"`
-	Background string `toml:"background"`
-	Msg        string `toml:"msg"`
+	Index      int         `toml:"index"`
+	Background string      `toml:"background"`
+	Msg        string      `toml:"msg"`
+	Characters []Character `toml:"characters"`
+}
+
+type Character struct {
+	Name   string `toml:"name"`
+	Sprite string `toml:"sprite"`
 }
