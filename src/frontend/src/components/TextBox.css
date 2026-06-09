@@ -31,3 +31,76 @@
     cursor: pointer;
     font-size: 1em;
 }
+
+.textWavy {
+    display: inline-block;
+    animation: wavy 1s ease-in-out infinite;
+}
+
+@keyframes wavy {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.textShake {
+    display: inline-block;
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.textFade {
+    display: inline-block;
+    animation: tfade 2s ease-in-out infinite;
+}
+
+@keyframes tfade {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.textWrite {
+    display: inline-block;
+    animation: write 2s steps(20) forwards;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@keyframes write {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}

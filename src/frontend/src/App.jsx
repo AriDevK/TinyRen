@@ -56,6 +56,7 @@ function App() {
             <TextBox 
                 speaker={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Speaker} 
                 text={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Text} 
+                textEffect={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Effect}
                 handleNextDialogue={handleNextDialogue} 
             />
             <Character character={scene && scene.Characters[0]} zIndex={1} />

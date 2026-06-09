@@ -47,4 +47,5 @@ type Character struct {
 type Dialogue struct {
 	Speaker string `toml:"speaker"`
 	Text    string `toml:"text"`
+	Effect  string `toml:"effect"`
 }

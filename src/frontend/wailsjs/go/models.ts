@@ -19,6 +19,7 @@ export namespace toml {
 	export class Dialogue {
 	    Speaker: string;
 	    Text: string;
+	    Effect: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Dialogue(source);
@@ -28,6 +29,7 @@ export namespace toml {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Speaker = source["Speaker"];
 	        this.Text = source["Text"];
+	        this.Effect = source["Effect"];
 	    }
 	}
 	export class Scene {
