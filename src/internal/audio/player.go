@@ -3,6 +3,7 @@ package audio
 import (
 	"log"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/aridevk/tinyren/internal/constants"
@@ -10,6 +11,20 @@ import (
 	"github.com/gopxl/beep/mp3"
 	"github.com/gopxl/beep/speaker"
 )
+
+var speakerOnce sync.Once
+var speakerErr error
+
+func initSpeaker(format beep.Format) error {
+	speakerOnce.Do(func() {
+		speakerErr = speaker.Init(
+			format.SampleRate,
+			format.SampleRate.N(time.Second/10),
+		)
+	})
+
+	return speakerErr
+}
 
 func Play(source string) {
 	path := constants.PATH + source
@@ -20,29 +35,26 @@ func Play(source string) {
 		log.Println("open:", err)
 		return
 	}
-	defer f.Close()
 
 	streamer, format, err := mp3.Decode(f)
 	if err != nil {
+		_ = f.Close()
 		log.Println("decode:", err)
 		return
 	}
-	defer streamer.Close()
 
-	err = speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-	if err != nil {
+	if err := initSpeaker(format); err != nil {
+		_ = streamer.Close()
+		_ = f.Close()
 		log.Println("speaker init:", err)
 		return
 	}
 
-	done := make(chan bool)
-
 	speaker.Play(beep.Seq(
 		streamer,
 		beep.Callback(func() {
-			done <- true
+			_ = streamer.Close()
+			_ = f.Close()
 		}),
 	))
-
-	<-done
 }

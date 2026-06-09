@@ -58,12 +58,14 @@ function App() {
                 <TextBox 
                     speaker={scene.Dialogue[dialogueIndex]?.Speaker} 
                     text={scene.Dialogue[dialogueIndex]?.Text} 
-                    textEffect={scene.Dialogue[dialogueIndex]?.Effect || ""}
+                    textEffect={scene.Dialogue[dialogueIndex]?.Effect}
                     handleNextDialogue={handleNextDialogue} 
                 />
                 <Character character={scene.Characters[0]} zIndex={1} />
                 <Character character={scene.Characters[1]} zIndex={2} />
-                <Speaker source={scene?.BackgroundMusic} />
+                {
+                    scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
+                }
             </div>
         )
     )

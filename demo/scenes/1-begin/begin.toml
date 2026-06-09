@@ -1,16 +1,17 @@
 [scene.begin]
-background = "@assets/bg.jpg"
+background = "@assets/bg/base.jpg"
+background_music = "@assets/audio/bgm/Ghostly Dream - Snow or Cherry Petal.mp3"
 zoom = 100
 
 [[scene.begin.characters]]
 name = "Kasen"
-sprite = "@assets/kasen.png"
+sprite = "@assets/characters/kasen.png"
 animation = "enterLeft 1s"
 
 
 [[scene.begin.characters]]
 name = "Reimu"
-sprite = "@assets/reimu.png"
+sprite = "@assets/characters/reimu.png"
 animation = "enterRight"
 
 
