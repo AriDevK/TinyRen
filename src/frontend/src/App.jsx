@@ -29,6 +29,7 @@ function App() {
                 width: "100vw",
                 height: "100vh",
                 backgroundSize: "cover",
+                zoom: scene && scene.Zoom ? scene.Zoom / 100 : 1,
             }}
         >
             <Character character={scene && scene.Characters[0]} zIndex={1} />

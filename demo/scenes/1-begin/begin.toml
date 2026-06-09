@@ -1,6 +1,6 @@
 [scene.begin]
 background = "@assets/bg.jpg"
-msg = "Hello, World!"
+zoom = 100
 
 [[scene.begin.characters]]
 name = "Kasen"
@@ -11,4 +11,4 @@ animation = "enterLeft 1s"
 [[scene.begin.characters]]
 name = "Reimu"
 sprite = "@assets/reimu.png"
-animation = "enterRight 3s"
+animation = "enterRight"
