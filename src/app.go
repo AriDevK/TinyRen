@@ -33,3 +33,7 @@ func (a *App) Greet(name string) string {
 func (a *App) GetBackground() string {
 	return a.orchestrator.Scenes["begin"].Background
 }
+
+func (a *App) GetScene(key string) toml.Scene {
+	return a.orchestrator.Scenes[key]
+}

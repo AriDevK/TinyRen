@@ -6,6 +6,10 @@ export function GetBackground() {
   return window['go']['main']['App']['GetBackground']();
 }
 
+export function GetScene(arg1) {
+  return window['go']['main']['App']['GetScene'](arg1);
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
