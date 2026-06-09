@@ -2,7 +2,7 @@ import "./Character.css"
 import "../animations.css"
 import { useState, useEffect } from "react";
 
-export default function Character({ character, zIndex }) {
+export default function Character({ character, zIndex, isTalking }) {
 
     const [animation, setAnimation] = useState("fade");
     const [animationDuration, setAnimationDuration] = useState("3s");
@@ -14,19 +14,21 @@ export default function Character({ character, zIndex }) {
             setAnimation(_animation);
             setAnimationDuration(_animationDuration ? _animationDuration : "3s");
         }
-    }, [character]);
+    }, [character, isTalking]);
 
 
     return (
         character && (
             <div id="character-sprite"
-                    className="characterSprite"
+                    className={`characterSprite ${isTalking ? 'talking' : ''}`}
                     style={{
-                        zIndex: zIndex,
+                        zIndex: isTalking ? zIndex + 10 : zIndex,
                         animation: `${animation} ${animationDuration} ease-in-out forwards`,
                     }}
                 >
-                <img key={character.Name} src={character.Sprite.replace('@', '')} alt={character.Name} />
+                <img 
+                    key={character.Name} 
+                    src={character.Sprite.replace('@', '')} alt={character.Name} />
             </div>
         )
     )

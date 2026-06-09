@@ -7,3 +7,21 @@
     user-select: none;
     pointer-events: none;
 }
+
+/* Smooth transform transitions for zooming when character talks */
+.characterSprite img {
+    transition: transform 0.25s ease-in-out;
+    transform-origin: center bottom;
+    display: block;
+    max-width: 100%;
+}
+
+/* Subtle pulsing while talking */
+.characterSprite.talking img {
+    animation: talkPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes talkPulse {
+    from { transform: scale(1.00); }
+    to   { transform: scale(1.03); }
+}

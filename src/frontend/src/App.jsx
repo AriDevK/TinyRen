@@ -14,8 +14,9 @@ function App() {
         GetScene("begin").then(scene => {
             setScene(scene);
             setBackground(formatBackground(scene.Background));
+            setDialogueIndex(0);
         })
-    }, [scene]);
+    }, []);
 
 
     useEffect(() => {
@@ -38,9 +39,11 @@ function App() {
     }
 
     const handleNextDialogue = () => {
-        if (scene && scene.Dialogue && dialogueIndex < scene.Dialogue.length - 1) {
-            setDialogueIndex(dialogueIndex + 1);
-        }
+        setDialogueIndex(prev => {
+            if (!scene || !scene.Dialogue) return prev;
+            if (prev < scene.Dialogue.length - 1) return prev + 1;
+            return prev;
+        });
     }
         
 
@@ -56,13 +59,20 @@ function App() {
                 }}
             >
                 <TextBox 
-                    speaker={scene.Dialogue[dialogueIndex]?.Speaker} 
+                    speaker={scene.Dialogue[dialogueIndex]?.Speaker}
                     text={scene.Dialogue[dialogueIndex]?.Text} 
                     textEffect={scene.Dialogue[dialogueIndex]?.Effect}
                     handleNextDialogue={handleNextDialogue} 
                 />
-                <Character character={scene.Characters[0]} zIndex={1} />
-                <Character character={scene.Characters[1]} zIndex={2} />
+                {(() => {
+                    const currentSpeaker = scene.Dialogue[dialogueIndex]?.Speaker;
+                    return (
+                        <>
+                            <Character character={scene.Characters[0]} zIndex={1} isTalking={currentSpeaker === scene.Characters[0]?.Name} />
+                            <Character character={scene.Characters[1]} zIndex={2} isTalking={currentSpeaker === scene.Characters[1]?.Name} />
+                        </>
+                    )
+                })()}
                 {
                     scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
                 }
