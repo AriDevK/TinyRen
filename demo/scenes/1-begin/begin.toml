@@ -1,3 +1,14 @@
 [scene.begin]
-background = "@https://github.com/static/images/modules/dashboard/promos/universe26.webp"
+background = "@assets/bg.jpg"
 msg = "Hello, World!"
+
+[[scene.begin.characters]]
+name = "Kasen"
+sprite = "@assets/kasen.png"
+animation = "enterLeft 1s"
+
+
+[[scene.begin.characters]]
+name = "Reimu"
+sprite = "@assets/reimu.png"
+animation = "enterRight 3s"
