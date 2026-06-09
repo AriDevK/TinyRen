@@ -1,0 +1,30 @@
+package toml
+
+type Orchestrator struct {
+	Global Global           `toml:"global"`
+	Scenes map[string]Scene `toml:"scene"`
+}
+
+type Global struct {
+	Info     Info     `toml:"info"`
+	Settings Settings `toml:"settings"`
+}
+
+type Info struct {
+	Title       string `toml:"title"`
+	Description string `toml:"description"`
+	Version     string `toml:"version"`
+	Author      string `toml:"author"`
+}
+
+type Settings struct {
+	Width      int  `toml:"width"`
+	Height     int  `toml:"height"`
+	Fullscreen bool `toml:"fullscreen"`
+}
+
+type Scene struct {
+	Index      int    `toml:"index"`
+	Background string `toml:"background"`
+	Msg        string `toml:"msg"`
+}

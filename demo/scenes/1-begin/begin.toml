@@ -1,0 +1,3 @@
+[scene.begin]
+background = "black"
+msg = "Hello, World!"

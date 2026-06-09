@@ -1,0 +1,10 @@
+[global.info]
+title = "TinyRen"
+description = "A description of my project."
+version = "1.0.0"
+author = "John Doe"
+
+[global.settings]
+width = 800
+height = 600
+fullscreen = false
