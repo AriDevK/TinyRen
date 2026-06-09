@@ -28,6 +28,8 @@ function App() {
                 background: background,
                 width: "100%",
                 height: "100vh",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
             }}
         >
         </div>
