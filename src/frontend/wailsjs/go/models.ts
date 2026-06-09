@@ -35,6 +35,7 @@ export namespace toml {
 	export class Scene {
 	    Index: number;
 	    Background: string;
+	    BackgroundMusic: string;
 	    Zoom: number;
 	    Characters: Character[];
 	    Dialogue: Dialogue[];
@@ -47,6 +48,7 @@ export namespace toml {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Index = source["Index"];
 	        this.Background = source["Background"];
+	        this.BackgroundMusic = source["BackgroundMusic"];
 	        this.Zoom = source["Zoom"];
 	        this.Characters = this.convertValues(source["Characters"], Character);
 	        this.Dialogue = this.convertValues(source["Dialogue"], Dialogue);

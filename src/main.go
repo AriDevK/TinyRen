@@ -8,14 +8,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/aridevk/tinyren/internal/constants"
 	toml "github.com/aridevk/tinyren/internal/toml"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
-)
-
-const (
-	PATH = "../demo/"
 )
 
 //go:embed all:frontend/dist
@@ -41,7 +38,7 @@ func (h *FileLoader) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fileData, err := os.ReadFile(PATH + "/" + requestedFilename)
+	fileData, err := os.ReadFile(constants.PATH + "/" + requestedFilename)
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		res.Write([]byte(fmt.Sprintf("Could not load file %s", requestedFilename)))
@@ -51,7 +48,7 @@ func (h *FileLoader) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	o, err := toml.NewOrchestrator(PATH)
+	o, err := toml.NewOrchestrator(constants.PATH)
 	if err != nil {
 		println("Error:", err.Error())
 		return

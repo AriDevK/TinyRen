@@ -7,3 +7,5 @@ export function GetBackground():Promise<string>;
 export function GetScene(arg1:string):Promise<toml.Scene>;
 
 export function Greet(arg1:string):Promise<string>;
+
+export function PlayAudio(arg1:string):Promise<void>;

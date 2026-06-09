@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aridevk/tinyren/internal/audio"
 	toml "github.com/aridevk/tinyren/internal/toml"
 )
 
@@ -36,4 +37,8 @@ func (a *App) GetBackground() string {
 
 func (a *App) GetScene(key string) toml.Scene {
 	return a.orchestrator.Scenes[key]
+}
+
+func (a *App) PlayAudio(source string) {
+	go audio.Play(source)
 }

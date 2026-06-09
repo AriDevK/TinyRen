@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { Greet, GetBackground, GetScene } from "../wailsjs/go/main/App";
+import { Greet, GetBackground, GetScene, PlayAudio } from "../wailsjs/go/main/App";
 import Character from './components/Character';
 import TextBox from './components/TextBox';
+import Speaker from './components/Speaker';
 
 function App() {
     const [scene, setScene] = useState(null);
@@ -44,24 +45,27 @@ function App() {
         
 
     return (
-        <div id="App"
-            style={{
-                background: background,
-                width: "100vw",
-                height: "100vh",
-                backgroundSize: "cover",
-                zoom: scene && scene.Zoom ? scene.Zoom / 100 : 1,
-            }}
-        >
-            <TextBox 
-                speaker={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Speaker} 
-                text={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Text} 
-                textEffect={scene && scene.Dialogue[dialogueIndex] && scene.Dialogue[dialogueIndex].Effect}
-                handleNextDialogue={handleNextDialogue} 
-            />
-            <Character character={scene && scene.Characters[0]} zIndex={1} />
-            <Character character={scene && scene.Characters[1]} zIndex={2} />
-        </div>
+        scene && (
+            <div id="App"
+                style={{
+                    background: background,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundSize: "cover",
+                    zoom: scene.Zoom ? scene.Zoom / 100 : 1,
+                }}
+            >
+                <TextBox 
+                    speaker={scene.Dialogue[dialogueIndex]?.Speaker} 
+                    text={scene.Dialogue[dialogueIndex]?.Text} 
+                    textEffect={scene.Dialogue[dialogueIndex]?.Effect || ""}
+                    handleNextDialogue={handleNextDialogue} 
+                />
+                <Character character={scene.Characters[0]} zIndex={1} />
+                <Character character={scene.Characters[1]} zIndex={2} />
+                <Speaker source={scene?.BackgroundMusic} />
+            </div>
+        )
     )
 }
 
