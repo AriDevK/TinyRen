@@ -12,3 +12,22 @@ animation = "enterLeft 1s"
 name = "Reimu"
 sprite = "@assets/reimu.png"
 animation = "enterRight"
+
+
+[[scene.begin.dialogue]]
+speaker = "Kasen"
+text = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
+
+
+[[scene.begin.dialogue]]
+speaker = "Reimu"
+text = "Hi, Kasen! This is amazing! I can't wait to see what we can do with this engine!"
+
+[[scene.begin.dialogue]]
+speaker = "Reimu"
+text = "Let's start by creating a new scene and adding some dialogue!"
+
+
+[[scene.begin.dialogue]]
+speaker = "Kasen"
+text = "Great idea! We can also add some character animations and background music to make it more immersive!"

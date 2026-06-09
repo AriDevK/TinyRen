@@ -1,6 +1,6 @@
 .characterSprite {
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
     z-index: 1;
     max-height: 100%;
     zoom: 0.8;

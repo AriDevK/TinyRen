@@ -35,10 +35,16 @@ type Scene struct {
 	Background string      `toml:"background"`
 	Zoom       float64     `toml:"zoom"`
 	Characters []Character `toml:"characters"`
+	Dialogue   []Dialogue  `toml:"dialogue"`
 }
 
 type Character struct {
 	Name      string `toml:"name"`
 	Sprite    string `toml:"sprite"`
 	Animation string `toml:"animation"`
+}
+
+type Dialogue struct {
+	Speaker string `toml:"speaker"`
+	Text    string `toml:"text"`
 }

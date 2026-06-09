@@ -16,11 +16,26 @@ export namespace toml {
 	        this.Animation = source["Animation"];
 	    }
 	}
+	export class Dialogue {
+	    Speaker: string;
+	    Text: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Dialogue(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Speaker = source["Speaker"];
+	        this.Text = source["Text"];
+	    }
+	}
 	export class Scene {
 	    Index: number;
 	    Background: string;
 	    Zoom: number;
 	    Characters: Character[];
+	    Dialogue: Dialogue[];
 	
 	    static createFrom(source: any = {}) {
 	        return new Scene(source);
@@ -32,6 +47,7 @@ export namespace toml {
 	        this.Background = source["Background"];
 	        this.Zoom = source["Zoom"];
 	        this.Characters = this.convertValues(source["Characters"], Character);
+	        this.Dialogue = this.convertValues(source["Dialogue"], Dialogue);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
