@@ -158,6 +158,7 @@ function App() {
                             text={dialogue?.Say?.Text}
                             textEffect={dialogue?.Say?.Effect}
                             handleNextDialogue={handleNextDialogue}
+                            vars={vars}
                         />
                     )
                 }

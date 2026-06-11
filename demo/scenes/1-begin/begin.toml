@@ -26,9 +26,13 @@ input.label = "What's your name?"
 input.placeholder = "Enter your name"
 input.type = "text"
 input.validation = "nonempty"
-input.on_submit_goto = "test2"
 input.on_submit_set = "vars.player.name = Sr. <input>"
 
+
+[[scene.begin.dialogue]]
+speaker = "Reimu"
+say.text = "Hello ${vars.player.name}! It's great to meet you. I'm excited to show you ${vars.world.name} and all the amazing things we can create with it!"
+say.effect = "Write"
 
 
 [[scene.begin.dialogue]]
