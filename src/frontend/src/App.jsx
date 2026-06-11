@@ -10,11 +10,13 @@ import QuestionBox from './components/QuestionBox';
 function App() {
     const [scene, setScene] = useState(null);
     const [background, setBackground] = useState(null);
+    const [dialogue, setDialogue] = useState(null);
     const [dialogueIndex, setDialogueIndex] = useState(0);
 
     useEffect(() => {
-        GetScene("begin").then(scene => {
-            setScene(scene);
+        GetScene("begin").then(fetchedScene => {
+            setScene(fetchedScene);
+            handleInitDialogue(fetchedScene);
             GetBackground().then(bg => {
                 setBackground(bg);
             });
@@ -33,24 +35,28 @@ function App() {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         }
-    }, [scene, dialogueIndex]);
+    }, [scene, dialogueIndex, dialogue]);
 
-    const formatBackground = (bgString) => {
-        return bgString.startsWith("@")
-            ? `url(${bgString.substring(1)})`
-            : bgString;
+
+    const handleInitDialogue = (sceneArg) => {
+        setDialogueIndex(0);
+        setDialogue(handleGetDialogue(0, sceneArg));
     }
 
     const handleNextDialogue = () => {
         setDialogueIndex(prev => {
-            if (!scene || !scene.Dialogue) return prev;
-            if (prev < scene.Dialogue.length - 1) return prev + 1;
-            return prev;
+            let index = prev;
+            if (!scene || !scene.Dialogue) index = prev;
+            if (prev < scene.Dialogue.length - 1) index = prev + 1;
+
+            setDialogue(handleGetDialogue(index));
+            return index;
         });
     }
 
-    const handleGetDialogue = () => {
-        const dialogueSection = scene?.Dialogue[dialogueIndex];
+    const handleGetDialogue = (dIndex, sceneArg) => {
+        const s = sceneArg ?? scene;
+        const dialogueSection = s?.Dialogue[dIndex];
         if (dialogueSection) {
             const hasQuestion = dialogueSection?.Ask?.Question && dialogueSection?.Ask?.Options && dialogueSection?.Ask?.Options.length > 0;
             if (hasQuestion) {
@@ -65,48 +71,50 @@ function App() {
                 }
             }
         }
+
+        return null;
     }
 
-
     return (
-        scene && (
+        scene && background && dialogue && (
             <div id="App"
                 style={{
                     background: background,
+                    zoom: scene.Zoom ? scene.Zoom / 100 : 1,
                     width: "100vw",
                     height: "100vh",
                     backgroundSize: "cover",
-                    zoom: scene.Zoom ? scene.Zoom / 100 : 1,
                 }}
             >
-
-
                 {
-                    handleGetDialogue()?.isQuestion ? (
+                    dialogue?.isQuestion ? (
                         <QuestionBox
-                            question={handleGetDialogue().Ask?.Question}
-                            options={handleGetDialogue().Ask?.Options}
+                            question={dialogue?.Ask?.Question}
+                            options={dialogue?.Ask?.Options}
                             handleOptionSelect={(option) => console.log("Selected option:", option)}
                         />
                     ) : (
                         <TextBox
-                            speaker={handleGetDialogue().Speaker}
-                            text={handleGetDialogue().Say?.Text}
-                            textEffect={handleGetDialogue().Say?.Effect}
+                            speaker={dialogue?.Speaker}
+                            text={dialogue?.Say?.Text}
+                            textEffect={dialogue?.Say?.Effect}
                             handleNextDialogue={handleNextDialogue}
                         />
                     )
                 }
 
                 {(() => {
-                    const currentSpeaker = handleGetDialogue().Speaker;
-                    return (
-                        <>
-                            <Character character={scene.Characters[0]} zIndex={1} isTalking={currentSpeaker === scene.Characters[0]?.Name} />
-                            <Character character={scene.Characters[1]} zIndex={2} isTalking={currentSpeaker === scene.Characters[1]?.Name} />
-                        </>
-                    )
+                    const currentSpeaker = dialogue?.Speaker;
+                    return scene.Characters.map((character, index) => (
+                        <Character
+                            key={index}
+                            character={character}
+                            zIndex={index + 1}
+                            isTalking={currentSpeaker === character.Name}
+                        />
+                    ))
                 })()}
+
                 {
                     // scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
                 }
