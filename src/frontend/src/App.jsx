@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { GetBackground, GetScene, PlayAudio, SetVar, GetVars, Save} from "../wailsjs/go/main/App";
+import { GetBackground, GetScene, PlayAudio, SetVar, GetVars, Save } from "../wailsjs/go/main/App";
 import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
@@ -54,6 +54,18 @@ function App() {
 
     const handleNextDialogue = () => {
         setDialogueIndex(prev => {
+            const prevDialogue = handleGetDialogue(prev);
+            if (prevDialogue?.Save) {
+                Save()
+                    .then(newVars => {
+                        console.log("Vars after saving:", newVars);
+                        setVars(newVars);
+                    })
+                    .catch(err => {
+                        console.error(`Error saving game: ${err}`);
+                    });
+            }
+
             let index = prev;
             if (!scene || !scene.Dialogue) index = prev;
             if (prev < scene.Dialogue.length - 1) index = prev + 1;
@@ -64,7 +76,7 @@ function App() {
                 console.log(`Setting shown for speaker: ${nextDialogue.Speaker} to ${nextDialogue.Shown}`);
                 const character = scene.Characters.find(c => c.Name === nextDialogue.Speaker);
 
-                if (nextDialogue?.Shown === "true"){
+                if (nextDialogue?.Shown === "true") {
                     character.Shown = "true";
                 } else if (nextDialogue?.Shown === "false") {
                     character.Shown = "false"
@@ -88,11 +100,23 @@ function App() {
         const s = sceneArg ?? scene;
         return s?.Dialogue[dIndex];
     }
-    
+
     const handleGoTo = (goTo) => {
         if (!scene || !scene.Dialogue) return;
 
         console.log(`Handling GoTo: ${goTo}`);
+
+        const actualDialogue = handleGetDialogue(dialogueIndex);
+        if (actualDialogue?.Save) {
+            Save()
+            .then(newVars => {
+                console.log("Vars after saving:", newVars);
+                setVars(newVars);
+            })
+            .catch(err => {
+                console.error(`Error saving game: ${err}`);
+            });
+        }
 
         const targetIndex = scene.Dialogue.findIndex(d => d.ToGo === goTo);
         if (targetIndex !== -1) {
@@ -122,53 +146,53 @@ function App() {
                 />
 
                 {
-                    dialogue?.Type === "input" ? 
-                    (
-                        <TextInput 
-                            label={dialogue.Input.Label} 
-                            value="" 
-                            placeholder={dialogue.Input.Placeholder}
-                            onSubmit={(value) => {
-                                if (dialogue.Input.OnSubmitSet) {
-                                    let [varName, varValue] = dialogue.Input.OnSubmitSet.split("=");
-                                    varValue = varValue.replace("<input>", `${value}`);
-                                    SetVar(varName, varValue)
-                                        .then(() => {
-                                            Save()
-                                            .then(savedVars => {
-                                                console.log("Vars after saving:", savedVars);
-                                                setVars(savedVars);
+                    dialogue?.Type === "input" ?
+                        (
+                            <TextInput
+                                label={dialogue.Input.Label}
+                                value=""
+                                placeholder={dialogue.Input.Placeholder}
+                                onSubmit={(value) => {
+                                    if (dialogue.Input.OnSubmitSet) {
+                                        let [varName, varValue] = dialogue.Input.OnSubmitSet.split("=");
+                                        varValue = varValue.replace("<input>", `${value}`);
+                                        SetVar(varName, varValue)
+                                            .then(() => {
+                                                GetVars()
+                                                    .then(newVars => {
+                                                        console.log("Vars after saving:", newVars);
+                                                        setVars(newVars);
+                                                    })
+                                                    .catch(err => {
+                                                        console.error(`Error saving game: ${err}`);
+                                                    });
                                             })
                                             .catch(err => {
-                                                console.error(`Error saving game: ${err}`);
+                                                console.error(`Error setting variable: ${err}`);
                                             });
-                                        })
-                                        .catch(err => {
-                                            console.error(`Error setting variable: ${err}`);
-                                        });
-                                }
+                                    }
 
-                                if (dialogue.Input.OnSubmitGoTo) handleGoTo(dialogue.Input.OnSubmitGoTo);
-                                else handleNextDialogue();
-                            }}
-                        />
-                    ) 
-                    :dialogue?.Type === "ask" ? (
-                        <QuestionBox
-                            question={dialogue?.Ask?.Question}
-                            options={dialogue?.Ask?.Options}
-                            handleOptionSelect={handleGoTo}
-                        />
-                    ) 
-                    : (
-                        <TextBox
-                            speaker={dialogue?.Speaker}
-                            text={dialogue?.Say?.Text}
-                            textEffect={dialogue?.Say?.Effect}
-                            handleNextDialogue={handleNextDialogue}
-                            vars={vars}
-                        />
-                    )
+                                    if (dialogue.Input.OnSubmitGoTo) handleGoTo(dialogue.Input.OnSubmitGoTo);
+                                    else handleNextDialogue();
+                                }}
+                            />
+                        )
+                        : dialogue?.Type === "ask" ? (
+                            <QuestionBox
+                                question={dialogue?.Ask?.Question}
+                                options={dialogue?.Ask?.Options}
+                                handleOptionSelect={handleGoTo}
+                            />
+                        )
+                            : (
+                                <TextBox
+                                    speaker={dialogue?.Speaker}
+                                    text={dialogue?.Say?.Text}
+                                    textEffect={dialogue?.Say?.Effect}
+                                    handleNextDialogue={handleNextDialogue}
+                                    vars={vars}
+                                />
+                            )
                 }
 
                 {(() => {

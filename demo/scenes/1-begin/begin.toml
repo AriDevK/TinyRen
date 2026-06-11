@@ -27,6 +27,7 @@ input.placeholder = "Enter your name"
 input.type = "text"
 input.validation = "nonempty"
 input.on_submit_set = "vars.player.name = Sr. <input>"
+save = true
 
 
 [[scene.begin.dialogue]]

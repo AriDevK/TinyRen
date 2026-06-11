@@ -171,6 +171,7 @@ type Dialogue struct {
 	Say     *DialogueSay   `toml:"say,omitempty"`
 	Ask     *DialogueAsk   `toml:"ask,omitempty"`
 	Input   *DialogueInput `toml:"input,omitempty"`
+	Save    bool           `toml:"save,omitempty"`
 }
 
 type DialogueSay struct {
