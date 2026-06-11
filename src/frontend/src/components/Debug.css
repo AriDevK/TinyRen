@@ -1,0 +1,54 @@
+.debug {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000000000000000000000;
+}
+
+.debugTextarea {
+    width: 90%;
+    height: 80%;
+    color: white;
+    background-color: #222;
+    font-family: monospace;
+    padding: 20px;
+    border: none;
+    overflow-y: scroll;
+}
+
+.tabGroup {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.tabButton.active {
+    background-color: #888;
+}
+
+.tabButton:hover {
+    background-color: #666;
+}
+
+.tabContent {
+    width: 80%;
+    height: 70%;
+    padding: 0px;
+    border: none;
+    overflow-y: scroll;
+}

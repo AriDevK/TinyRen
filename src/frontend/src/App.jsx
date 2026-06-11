@@ -6,6 +6,8 @@ import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
 import QuestionBox from './components/QuestionBox';
 import TextInput from './components/TextInput';
+import Debug from './components/Debug';
+
 
 
 function App() {
@@ -113,9 +115,11 @@ function App() {
                 }}
             >
 
-                <p style={{ color: "white", position: "absolute", top: 10, left: 10, zIndex: 1000 }}>
-                    {vars.player?.name}
-                </p>
+                <Debug
+                    scene={scene}
+                    dialogue={dialogue}
+                    vars={vars}
+                />
 
                 {
                     dialogue?.Type === "input" ? 
