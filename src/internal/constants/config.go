@@ -1,5 +1,6 @@
 package constants
 
 const (
-	PATH = "../demo"
+	PATH           = "../demo"
+	SAVE_FILE_PATH = "../demo/temp/_vs.toml"
 )

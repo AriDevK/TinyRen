@@ -14,4 +14,6 @@ export function GetVars():Promise<Record<string, any>>;
 
 export function PlayAudio(arg1:string):Promise<void>;
 
+export function Save():Promise<Record<string, any>>;
+
 export function SetVar(arg1:string,arg2:any):Promise<void>;

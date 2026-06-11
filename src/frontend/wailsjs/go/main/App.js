@@ -26,6 +26,10 @@ export function PlayAudio(arg1) {
   return window['go']['main']['App']['PlayAudio'](arg1);
 }
 
+export function Save() {
+  return window['go']['main']['App']['Save']();
+}
+
 export function SetVar(arg1, arg2) {
   return window['go']['main']['App']['SetVar'](arg1, arg2);
 }

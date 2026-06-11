@@ -1,6 +1,12 @@
 package toml
 
-import "strings"
+import (
+	"os"
+	"strings"
+
+	"github.com/BurntSushi/toml"
+	"github.com/aridevk/tinyren/internal/constants"
+)
 
 type DialogueType string
 
@@ -15,6 +21,33 @@ type Orchestrator struct {
 	Global Global           `toml:"global"`
 	Scenes map[string]Scene `toml:"scene"`
 	Vars   map[string]any   `toml:"vars"`
+}
+
+func (o Orchestrator) Save() error {
+	fileWriter, err := os.Create(constants.SAVE_FILE_PATH)
+	if err != nil {
+		return err
+	}
+	defer fileWriter.Close()
+
+	varTemplate := map[string]any{
+		"vars": o.Vars,
+	}
+
+	var rawVarsContentStr strings.Builder
+	encoder := toml.NewEncoder(&rawVarsContentStr)
+
+	err = encoder.Encode(varTemplate)
+	if err != nil {
+		return err
+	}
+
+	_, err = fileWriter.WriteString(rawVarsContentStr.String())
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 type Global struct {

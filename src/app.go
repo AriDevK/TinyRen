@@ -80,3 +80,12 @@ func (a *App) SetVar(key string, value any) {
 func (a *App) GetVars() map[string]any {
 	return a.orchestrator.Vars
 }
+
+func (a *App) Save() (map[string]any, error) {
+	err := a.orchestrator.Save()
+	if err != nil {
+		return nil, err
+	}
+
+	return a.orchestrator.Vars, nil
+}

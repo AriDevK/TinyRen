@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
+	"github.com/aridevk/tinyren/internal/constants"
 )
 
 func NewOrchestrator(projectPath string) (Orchestrator, error) {
@@ -59,6 +60,22 @@ func LoadVars(path string) (vars map[string]any, err error) {
 		return nil, err
 	}
 
+	// if any filte is called _v.toml load the vars from there
+	if _, err := os.Stat(constants.SAVE_FILE_PATH); err == nil {
+		data, err := os.ReadFile(constants.SAVE_FILE_PATH)
+		if err != nil {
+			return nil, err
+		}
+
+		var orchestrator Orchestrator
+		_, err = toml.Decode(string(data), &orchestrator)
+		if err != nil {
+			return nil, err
+		}
+
+		return orchestrator.Vars, nil
+	}
+
 	var rawVarsContent []string
 	for _, file := range files {
 		if file.IsDir() || !strings.HasSuffix(file.Name(), ".toml") {
@@ -81,6 +98,7 @@ func LoadVars(path string) (vars map[string]any, err error) {
 		return nil, err
 	}
 
+	os.WriteFile(constants.SAVE_FILE_PATH, []byte(rawVarsContentStr), 0644)
 	return orchestrator.Vars, nil
 }
 

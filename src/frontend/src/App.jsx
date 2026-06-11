@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { GetBackground, GetScene, PlayAudio, SetVar, GetVars } from "../wailsjs/go/main/App";
+import { GetBackground, GetScene, PlayAudio, SetVar, GetVars, Save} from "../wailsjs/go/main/App";
 import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
@@ -134,9 +134,13 @@ function App() {
                                     varValue = varValue.replace("<input>", `${value}`);
                                     SetVar(varName, varValue)
                                         .then(() => {
-                                            GetVars().then(vars => {
-                                                console.log("Vars after setting:", vars);
-                                                setVars(vars);
+                                            Save()
+                                            .then(savedVars => {
+                                                console.log("Vars after saving:", savedVars);
+                                                setVars(savedVars);
+                                            })
+                                            .catch(err => {
+                                                console.error(`Error saving game: ${err}`);
                                             });
                                         })
                                         .catch(err => {

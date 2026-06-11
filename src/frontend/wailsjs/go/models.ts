@@ -122,6 +122,7 @@ export namespace toml {
 	    Say?: DialogueSay;
 	    Ask?: DialogueAsk;
 	    Input?: DialogueInput;
+	    Save: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Dialogue(source);
@@ -136,6 +137,7 @@ export namespace toml {
 	        this.Say = this.convertValues(source["Say"], DialogueSay);
 	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);
 	        this.Input = this.convertValues(source["Input"], DialogueInput);
+	        this.Save = source["Save"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
