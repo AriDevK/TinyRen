@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { GetBackground, GetScene, PlayAudio } from "../wailsjs/go/main/App";
+import { GetBackground, GetScene, PlayAudio, SetVar, GetVars } from "../wailsjs/go/main/App";
 import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
@@ -9,6 +9,7 @@ import TextInput from './components/TextInput';
 
 
 function App() {
+    const [vars, setVars] = useState({});
     const [scene, setScene] = useState(null);
     const [background, setBackground] = useState(null);
     const [dialogue, setDialogue] = useState(null);
@@ -18,8 +19,13 @@ function App() {
         GetScene("begin").then(fetchedScene => {
             setScene(fetchedScene);
             handleInitDialogue(fetchedScene);
+
             GetBackground().then(bg => {
                 setBackground(bg);
+            });
+
+            GetVars().then(vars => {
+                setVars(vars);
             });
         });
     }, []);
@@ -96,7 +102,7 @@ function App() {
     }
 
     return (
-        scene && background && dialogue && (
+        scene && background && dialogue && vars && (
             <div id="App"
                 style={{
                     background: background,
@@ -107,6 +113,10 @@ function App() {
                 }}
             >
 
+                <p style={{ color: "white", position: "absolute", top: 10, left: 10, zIndex: 1000 }}>
+                    {vars.player?.name}
+                </p>
+
                 {
                     dialogue?.Type === "input" ? 
                     (
@@ -115,8 +125,23 @@ function App() {
                             value="" 
                             placeholder={dialogue.Input.Placeholder}
                             onSubmit={(value) => {
-                                console.log(`Inputs submitted: ${dialogue.Input.OnSubmitSet}`);
-                                console.log(`Input submitted: ${dialogue.Input.OnSubmitGoTo}`);
+                                if (dialogue.Input.OnSubmitSet) {
+                                    let [varName, varValue] = dialogue.Input.OnSubmitSet.split("=");
+                                    varValue = varValue.replace("<input>", `${value}`);
+                                    SetVar(varName, varValue)
+                                        .then(() => {
+                                            GetVars().then(vars => {
+                                                console.log("Vars after setting:", vars);
+                                                setVars(vars);
+                                            });
+                                        })
+                                        .catch(err => {
+                                            console.error(`Error setting variable: ${err}`);
+                                        });
+                                }
+
+                                if (dialogue.Input.OnSubmitGoTo) handleGoTo(dialogue.Input.OnSubmitGoTo);
+                                else handleNextDialogue();
                             }}
                         />
                     ) 

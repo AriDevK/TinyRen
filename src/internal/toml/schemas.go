@@ -14,6 +14,7 @@ const (
 type Orchestrator struct {
 	Global Global           `toml:"global"`
 	Scenes map[string]Scene `toml:"scene"`
+	Vars   map[string]any   `toml:"vars"`
 }
 
 type Global struct {

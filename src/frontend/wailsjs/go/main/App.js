@@ -18,6 +18,14 @@ export function GetScene(arg1) {
   return window['go']['main']['App']['GetScene'](arg1);
 }
 
+export function GetVars() {
+  return window['go']['main']['App']['GetVars']();
+}
+
 export function PlayAudio(arg1) {
   return window['go']['main']['App']['PlayAudio'](arg1);
+}
+
+export function SetVar(arg1, arg2) {
+  return window['go']['main']['App']['SetVar'](arg1, arg2);
 }

@@ -20,6 +20,13 @@ func NewOrchestrator(projectPath string) (Orchestrator, error) {
 		return Orchestrator{}, err
 	}
 
+	vars, err := LoadVars(filepath.Join(projectPath, "vars"))
+	if err != nil {
+		println("Error loading vars:", err.Error())
+		return Orchestrator{}, err
+	}
+	orchestrator.Vars = vars
+
 	scenes, err := LoadScenes(scenesPath, globals.Characters)
 	if err != nil {
 		println("Error loading scenes:", err.Error())
@@ -44,6 +51,37 @@ func LoadGlobals(path string) (globals Global, err error) {
 	}
 
 	return orchestrator.Global, nil
+}
+
+func LoadVars(path string) (vars map[string]any, err error) {
+	files, err := os.ReadDir(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var rawVarsContent []string
+	for _, file := range files {
+		if file.IsDir() || !strings.HasSuffix(file.Name(), ".toml") {
+			continue
+		}
+
+		fp := filepath.Join(path, file.Name())
+		data, err := os.ReadFile(fp)
+		if err != nil {
+			return nil, err
+		}
+
+		rawVarsContent = append(rawVarsContent, string(data))
+	}
+
+	rawVarsContentStr := strings.Join(rawVarsContent, "\n")
+	var orchestrator Orchestrator
+	_, err = toml.Decode(rawVarsContentStr, &orchestrator)
+	if err != nil {
+		return nil, err
+	}
+
+	return orchestrator.Vars, nil
 }
 
 func LoadScenes(path string, characters []GlobalCharacter) (scenes map[string]Scene, err error) {

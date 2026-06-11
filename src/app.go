@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aridevk/tinyren/internal/audio"
 	toml "github.com/aridevk/tinyren/internal/toml"
@@ -53,4 +54,29 @@ func (a *App) GetCharacterSprite(c toml.Character) string {
 
 func (a *App) PlayAudio(source string) {
 	go audio.Play(source)
+}
+
+func (a *App) SetVar(key string, value any) {
+	key = strings.TrimPrefix(key, "vars.")
+	keyPaths := strings.Split(key, ".")
+	currentMap := a.orchestrator.Vars
+
+	for i, keyPart := range keyPaths {
+		keyPart = strings.TrimSpace(keyPart)
+		if i == len(keyPaths)-1 {
+			currentMap[keyPart] = value
+		} else {
+			if nextMap, ok := currentMap[keyPart].(map[string]any); ok {
+				currentMap = nextMap
+			} else {
+				newMap := make(map[string]any)
+				currentMap[keyPart] = newMap
+				currentMap = newMap
+			}
+		}
+	}
+}
+
+func (a *App) GetVars() map[string]any {
+	return a.orchestrator.Vars
 }

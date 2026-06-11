@@ -10,4 +10,8 @@ export function GetCharacterSprite(arg1:toml.Character):Promise<string>;
 
 export function GetScene(arg1:string):Promise<toml.Scene>;
 
+export function GetVars():Promise<Record<string, any>>;
+
 export function PlayAudio(arg1:string):Promise<void>;
+
+export function SetVar(arg1:string,arg2:any):Promise<void>;

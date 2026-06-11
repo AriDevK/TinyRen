@@ -22,12 +22,12 @@ say.effect = "Fade"
 
 
 [[scene.begin.dialogue]]
-input.label = "test1"
-input.placeholder = "Type something..."
+input.label = "What's your name?"
+input.placeholder = "Enter your name"
 input.type = "text"
 input.validation = "nonempty"
 input.on_submit_goto = "test2"
-input.on_submit_set = "$global.player.name=input"
+input.on_submit_set = "vars.player.name = Sr. <input>"
 
 
 
