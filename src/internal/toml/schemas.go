@@ -92,6 +92,7 @@ func (c Character) GetAnimationData() CharacterAnimationData {
 }
 
 type Dialogue struct {
+	ToGo    string       `toml:"togo"`
 	Speaker string       `toml:"speaker"`
 	Say     *DialogueSay `toml:"say,omitempty"`
 	Ask     *DialogueAsk `toml:"ask,omitempty"`
@@ -103,6 +104,11 @@ type DialogueSay struct {
 }
 
 type DialogueAsk struct {
-	Question string   `toml:"question"`
-	Options  []string `toml:"options"`
+	Question string      `toml:"question"`
+	Options  []AskOption `toml:"options"`
+}
+
+type AskOption struct {
+	Text string `toml:"text"`
+	GoTo string `toml:"goto"`
 }

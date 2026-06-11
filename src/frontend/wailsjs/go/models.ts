@@ -1,5 +1,19 @@
 export namespace toml {
 	
+	export class AskOption {
+	    Text: string;
+	    GoTo: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new AskOption(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Text = source["Text"];
+	        this.GoTo = source["GoTo"];
+	    }
+	}
 	export class Character {
 	    Name: string;
 	    Sprite: string;
@@ -32,7 +46,7 @@ export namespace toml {
 	}
 	export class DialogueAsk {
 	    Question: string;
-	    Options: string[];
+	    Options: AskOption[];
 	
 	    static createFrom(source: any = {}) {
 	        return new DialogueAsk(source);
@@ -41,8 +55,26 @@ export namespace toml {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Question = source["Question"];
-	        this.Options = source["Options"];
+	        this.Options = this.convertValues(source["Options"], AskOption);
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
 	export class DialogueSay {
 	    Text: string;
@@ -59,6 +91,7 @@ export namespace toml {
 	    }
 	}
 	export class Dialogue {
+	    ToGo: string;
 	    Speaker: string;
 	    Say?: DialogueSay;
 	    Ask?: DialogueAsk;
@@ -69,6 +102,7 @@ export namespace toml {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.ToGo = source["ToGo"];
 	        this.Speaker = source["Speaker"];
 	        this.Say = this.convertValues(source["Say"], DialogueSay);
 	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);

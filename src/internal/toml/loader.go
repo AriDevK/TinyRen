@@ -77,9 +77,67 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 				return nil, err
 			}
 
-			rawSceneContent = append(rawSceneContent, string(data)+"\n"+"index = "+directoryId)
+			// get string(data) and check if there is a text with pattern
+			// ask.options = [
+			//     "text", #goto something
+			// ]
+			// to replace them with
+			// ask.options = [
+			//     {text = "text", togo = "something"},
+			// ]
+			lines := strings.Split(string(data), "\n")
+			var processedLines []string
+			reading := false
+			for _, line := range lines {
+				line = strings.TrimSpace(line)
+				if strings.HasPrefix(line, "ask.options") {
+					reading = true
+					processedLines = append(processedLines, line)
+					continue
+				}
+
+				if reading {
+					if line == "]" {
+						reading = false
+						processedLines = append(processedLines, line)
+						continue
+					}
+
+					line = strings.TrimSpace(line)
+
+					// if regex looks like {text="...", goto="..."} then keep it as is
+					if strings.HasPrefix(line, "{") {
+						processedLines = append(processedLines, line)
+						continue
+					}
+
+					// otherwise, split by comma and process
+					optionData := strings.Split(line, ",")
+					optionText := strings.TrimSpace(optionData[0])
+					optionToGo := ""
+
+					if len(optionData) > 1 {
+						optionToGo = strings.TrimSpace(
+							strings.TrimPrefix(
+								strings.TrimSpace(optionData[1]),
+								"#goto",
+							),
+						)
+					}
+
+					processedLine := "{" + `text = ` + optionText + `, goto = "` + optionToGo + `"` + "},"
+					processedLines = append(processedLines, processedLine)
+				} else {
+					processedLines = append(processedLines, line)
+				}
+			}
+
+			dataStr := strings.Join(processedLines, "\n")
+			rawSceneContent = append(rawSceneContent, dataStr+"\n"+"index = "+directoryId)
 		}
 	}
+
+	println("Raw scene content:", strings.Join(rawSceneContent, "\n"))
 
 	var orchestrator Orchestrator
 	rawSceneContentStr := strings.Join(rawSceneContent, "\n")

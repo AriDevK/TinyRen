@@ -16,17 +16,20 @@ animation = "enterRight"
 
 
 [[scene.begin.dialogue]]
+togo = "test1"
 speaker = "Kasen"
 say.text = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
 say.effect = "Fade"
 
 
 [[scene.begin.dialogue]]
+togo = "test2"
 speaker = "Reimu"
 say.text = "Hi, Kasen! This is amazing! I can't wait to see what we can do with this engine!"
 say.effect = "Write"
 
 [[scene.begin.dialogue]]
+togo = "test3"
 speaker = "Reimu"
 say.text = "Let's start by creating a new scene and adding some dialogue!"
 say.effect = "Wavy"
@@ -38,10 +41,13 @@ say.text = "Great idea! We can also add some character animations and background
 
 
 [[scene.begin.dialogue]]
+togo = "test4"
 speaker = "Reimu"
 ask.question = "What should we do first?"
 ask.options = [
-    "Create a new scene", 
-    "Add character animations", 
-    "Add background music"
+    "Create a new scene", #goto test1
+    "Add character animations", #goto test2
+    {text = "Add background music", goto = "test3"},
+    {text = "All of the above"}, #dont have goto
+    "Reask the question", #goto test4
 ]

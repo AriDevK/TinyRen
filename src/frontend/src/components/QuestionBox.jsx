@@ -6,8 +6,8 @@ export default function QuestionBox({ question, options, handleOptionSelect }) {
             <p className="questionText">{question}</p>
             <div className="optionsContainer">
                 {options.map((option, index) => (
-                    <button key={index} className="optionButton" onClick={() => handleOptionSelect(option)}>
-                        {option}
+                    <button key={index} className="optionButton" onClick={() => handleOptionSelect(option.GoTo)}>
+                        {option.Text}
                     </button>
                 ))}
             </div>

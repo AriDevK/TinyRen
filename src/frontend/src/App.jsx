@@ -74,6 +74,20 @@ function App() {
 
         return null;
     }
+    
+    const handleGoTo = (goTo) => {
+        if (!scene || !scene.Dialogue) return;
+
+        console.log(`Handling GoTo: ${goTo}`);
+
+        const targetIndex = scene.Dialogue.findIndex(d => d.ToGo === goTo);
+        if (targetIndex !== -1) {
+            setDialogueIndex(targetIndex);
+            setDialogue(handleGetDialogue(targetIndex));
+        } else {
+            console.warn(`GoTo label "${goTo}" not found in dialogue.`);
+        }
+    }
 
     return (
         scene && background && dialogue && (
@@ -91,7 +105,7 @@ function App() {
                         <QuestionBox
                             question={dialogue?.Ask?.Question}
                             options={dialogue?.Ask?.Options}
-                            handleOptionSelect={(option) => console.log("Selected option:", option)}
+                            handleOptionSelect={handleGoTo}
                         />
                     ) : (
                         <TextBox
