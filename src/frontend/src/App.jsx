@@ -83,22 +83,22 @@ function App() {
                 {
                     handleGetDialogue()?.isQuestion ? (
                         <QuestionBox
-                            question={handleGetDialogue().Ask.Question}
-                            options={handleGetDialogue().Ask.Options}
+                            question={handleGetDialogue().Ask?.Question}
+                            options={handleGetDialogue().Ask?.Options}
                             handleOptionSelect={(option) => console.log("Selected option:", option)}
                         />
                     ) : (
                         <TextBox
                             speaker={handleGetDialogue().Speaker}
-                            text={handleGetDialogue().Say}
-                            textEffect={handleGetDialogue().Effect}
+                            text={handleGetDialogue().Say?.Text}
+                            textEffect={handleGetDialogue().Say?.Effect}
                             handleNextDialogue={handleNextDialogue}
                         />
                     )
                 }
 
                 {(() => {
-                    const currentSpeaker = scene.Dialogue[dialogueIndex]?.Speaker;
+                    const currentSpeaker = handleGetDialogue().Speaker;
                     return (
                         <>
                             <Character character={scene.Characters[0]} zIndex={1} isTalking={currentSpeaker === scene.Characters[0]?.Name} />

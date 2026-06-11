@@ -30,10 +30,23 @@ export namespace toml {
 	        this.Options = source["Options"];
 	    }
 	}
+	export class DialogueSay {
+	    Text: string;
+	    Effect: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new DialogueSay(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Text = source["Text"];
+	        this.Effect = source["Effect"];
+	    }
+	}
 	export class Dialogue {
 	    Speaker: string;
-	    Say: string;
-	    Effect: string;
+	    Say?: DialogueSay;
 	    Ask?: DialogueAsk;
 	
 	    static createFrom(source: any = {}) {
@@ -43,8 +56,7 @@ export namespace toml {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Speaker = source["Speaker"];
-	        this.Say = source["Say"];
-	        this.Effect = source["Effect"];
+	        this.Say = this.convertValues(source["Say"], DialogueSay);
 	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);
 	    }
 	
@@ -66,6 +78,7 @@ export namespace toml {
 		    return a;
 		}
 	}
+	
 	
 	export class Scene {
 	    Index: number;

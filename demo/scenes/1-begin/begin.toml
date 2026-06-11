@@ -17,24 +17,24 @@ animation = "enterRight"
 
 [[scene.begin.dialogue]]
 speaker = "Kasen"
-say = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
-effect = "Fade"
+say.text = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
+say.effect = "Fade"
 
 
 [[scene.begin.dialogue]]
 speaker = "Reimu"
-say = "Hi, Kasen! This is amazing! I can't wait to see what we can do with this engine!"
-effect = "Write"
+say.text = "Hi, Kasen! This is amazing! I can't wait to see what we can do with this engine!"
+say.effect = "Write"
 
 [[scene.begin.dialogue]]
 speaker = "Reimu"
-say = "Let's start by creating a new scene and adding some dialogue!"
-effect = "Wavy"
+say.text = "Let's start by creating a new scene and adding some dialogue!"
+say.effect = "Wavy"
 
 
 [[scene.begin.dialogue]]
 speaker = "Kasen"
-say = "Great idea! We can also add some character animations and background music to make it more immersive!"
+say.text = "Great idea! We can also add some character animations and background music to make it more immersive!"
 
 
 [[scene.begin.dialogue]]
