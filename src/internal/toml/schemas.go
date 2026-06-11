@@ -2,6 +2,15 @@ package toml
 
 import "strings"
 
+type DialogueType string
+
+const (
+	DialogueTypeSay   DialogueType = "say"
+	DialogueTypeAsk   DialogueType = "ask"
+	DialogueTypeInput DialogueType = "input"
+	DialogueTypeNone  DialogueType = "none"
+)
+
 type Orchestrator struct {
 	Global Global           `toml:"global"`
 	Scenes map[string]Scene `toml:"scene"`
@@ -121,11 +130,13 @@ func (c Character) GetAnimationData() CharacterAnimationData {
 }
 
 type Dialogue struct {
-	ToGo    string       `toml:"togo"`
-	Speaker string       `toml:"speaker"`
-	Shown   string       `toml:"shown,omitempty"`
-	Say     *DialogueSay `toml:"say,omitempty"`
-	Ask     *DialogueAsk `toml:"ask,omitempty"`
+	Type    DialogueType
+	ToGo    string         `toml:"togo"`
+	Speaker string         `toml:"speaker"`
+	Shown   string         `toml:"shown,omitempty"`
+	Say     *DialogueSay   `toml:"say,omitempty"`
+	Ask     *DialogueAsk   `toml:"ask,omitempty"`
+	Input   *DialogueInput `toml:"input,omitempty"`
 }
 
 type DialogueSay struct {
@@ -141,4 +152,13 @@ type DialogueAsk struct {
 type AskOption struct {
 	Text string `toml:"text"`
 	GoTo string `toml:"goto"`
+}
+
+type DialogueInput struct {
+	Label        string `toml:"label"`
+	Placeholder  string `toml:"placeholder"`
+	Type         string `toml:"type"`
+	Validation   string `toml:"validation"`
+	OnSubmitGoTo string `toml:"on_submit_goto"`
+	OnSubmitSet  string `toml:"on_submit_set"`
 }

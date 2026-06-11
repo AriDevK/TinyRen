@@ -165,5 +165,24 @@ func LoadScenes(path string, characters []GlobalCharacter) (scenes map[string]Sc
 		return nil, err
 	}
 
+	for key, sc := range orchestrator.Scenes {
+		var dialogues []Dialogue
+		for _, dialog := range sc.Dialogue {
+			if dialog.Input != nil {
+				dialog.Type = DialogueTypeInput
+			} else if dialog.Ask != nil {
+				dialog.Type = DialogueTypeAsk
+			} else if dialog.Say != nil {
+				dialog.Type = DialogueTypeSay
+			} else {
+				dialog.Type = DialogueTypeNone
+			}
+
+			dialogues = append(dialogues, dialog)
+		}
+		sc.Dialogue = dialogues
+		orchestrator.Scenes[key] = sc
+	}
+
 	return orchestrator.Scenes, nil
 }

@@ -1,0 +1,63 @@
+.textInputContainer {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    z-index: 10000000;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+}
+
+.inputLabel {
+    color: white;
+    margin-bottom: 9px;
+    font-size: 0.9em;
+    display: block;
+}
+
+
+.textInput {
+    width: 85%;
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.0);
+    color: white;
+}
+
+.textInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.textInput:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.textInput:disabled {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+}
+
+.submitButton {
+    position: absolute;
+    right: 20px;
+    top: 60%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 8%;
+    height: 40%;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.submitButton:hover {
+    background: rgba(255, 255, 255, 0.4);
+}

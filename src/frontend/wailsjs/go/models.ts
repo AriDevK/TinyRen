@@ -46,6 +46,28 @@ export namespace toml {
 	        this.Duration = source["Duration"];
 	    }
 	}
+	export class DialogueInput {
+	    Label: string;
+	    Placeholder: string;
+	    Type: string;
+	    Validation: string;
+	    OnSubmitGoTo: string;
+	    OnSubmitSet: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new DialogueInput(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Label = source["Label"];
+	        this.Placeholder = source["Placeholder"];
+	        this.Type = source["Type"];
+	        this.Validation = source["Validation"];
+	        this.OnSubmitGoTo = source["OnSubmitGoTo"];
+	        this.OnSubmitSet = source["OnSubmitSet"];
+	    }
+	}
 	export class DialogueAsk {
 	    Question: string;
 	    Options: AskOption[];
@@ -93,11 +115,13 @@ export namespace toml {
 	    }
 	}
 	export class Dialogue {
+	    Type: string;
 	    ToGo: string;
 	    Speaker: string;
 	    Shown: string;
 	    Say?: DialogueSay;
 	    Ask?: DialogueAsk;
+	    Input?: DialogueInput;
 	
 	    static createFrom(source: any = {}) {
 	        return new Dialogue(source);
@@ -105,11 +129,13 @@ export namespace toml {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Type = source["Type"];
 	        this.ToGo = source["ToGo"];
 	        this.Speaker = source["Speaker"];
 	        this.Shown = source["Shown"];
 	        this.Say = this.convertValues(source["Say"], DialogueSay);
 	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);
+	        this.Input = this.convertValues(source["Input"], DialogueInput);
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -130,6 +156,7 @@ export namespace toml {
 		    return a;
 		}
 	}
+	
 	
 	
 	export class Scene {

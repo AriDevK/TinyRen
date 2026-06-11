@@ -5,6 +5,7 @@ import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
 import QuestionBox from './components/QuestionBox';
+import TextInput from './components/TextInput';
 
 
 function App() {
@@ -77,23 +78,7 @@ function App() {
 
     const handleGetDialogue = (dIndex, sceneArg) => {
         const s = sceneArg ?? scene;
-        const dialogueSection = s?.Dialogue[dIndex];
-        if (dialogueSection) {
-            const hasQuestion = dialogueSection?.Ask?.Question && dialogueSection?.Ask?.Options && dialogueSection?.Ask?.Options.length > 0;
-            if (hasQuestion) {
-                return {
-                    isQuestion: true,
-                    ...dialogueSection
-                }
-            } else {
-                return {
-                    isQuestion: false,
-                    ...dialogueSection
-                }
-            }
-        }
-
-        return null;
+        return s?.Dialogue[dIndex];
     }
     
     const handleGoTo = (goTo) => {
@@ -121,14 +106,28 @@ function App() {
                     backgroundSize: "cover",
                 }}
             >
+
                 {
-                    dialogue?.isQuestion ? (
+                    dialogue?.Type === "input" ? 
+                    (
+                        <TextInput 
+                            label={dialogue.Input.Label} 
+                            value="" 
+                            placeholder={dialogue.Input.Placeholder}
+                            onSubmit={(value) => {
+                                console.log(`Inputs submitted: ${dialogue.Input.OnSubmitSet}`);
+                                console.log(`Input submitted: ${dialogue.Input.OnSubmitGoTo}`);
+                            }}
+                        />
+                    ) 
+                    :dialogue?.Type === "ask" ? (
                         <QuestionBox
                             question={dialogue?.Ask?.Question}
                             options={dialogue?.Ask?.Options}
                             handleOptionSelect={handleGoTo}
                         />
-                    ) : (
+                    ) 
+                    : (
                         <TextBox
                             speaker={dialogue?.Speaker}
                             text={dialogue?.Say?.Text}
