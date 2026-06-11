@@ -16,10 +16,25 @@ export namespace toml {
 	        this.Animation = source["Animation"];
 	    }
 	}
+	export class DialogueAsk {
+	    Question: string;
+	    Options: string[];
+	
+	    static createFrom(source: any = {}) {
+	        return new DialogueAsk(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Question = source["Question"];
+	        this.Options = source["Options"];
+	    }
+	}
 	export class Dialogue {
 	    Speaker: string;
-	    Text: string;
+	    Say: string;
 	    Effect: string;
+	    Ask?: DialogueAsk;
 	
 	    static createFrom(source: any = {}) {
 	        return new Dialogue(source);
@@ -28,10 +43,30 @@ export namespace toml {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Speaker = source["Speaker"];
-	        this.Text = source["Text"];
+	        this.Say = source["Say"];
 	        this.Effect = source["Effect"];
+	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);
 	    }
+	
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
 	}
+	
 	export class Scene {
 	    Index: number;
 	    Background: string;

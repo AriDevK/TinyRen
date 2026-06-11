@@ -4,6 +4,8 @@ import { Greet, GetBackground, GetScene, PlayAudio } from "../wailsjs/go/main/Ap
 import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
+import QuestionBox from './components/QuestionBox';
+
 
 function App() {
     const [scene, setScene] = useState(null);
@@ -25,7 +27,7 @@ function App() {
                 handleNextDialogue();
             }
         };
-        
+
         window.addEventListener("keydown", handleKeyDown);
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
@@ -33,9 +35,9 @@ function App() {
     }, [scene, dialogueIndex]);
 
     const formatBackground = (bgString) => {
-        return bgString.startsWith("@") 
-        ? `url(${bgString.substring(1)})`
-        : bgString;
+        return bgString.startsWith("@")
+            ? `url(${bgString.substring(1)})`
+            : bgString;
     }
 
     const handleNextDialogue = () => {
@@ -45,7 +47,25 @@ function App() {
             return prev;
         });
     }
-        
+
+    const handleGetDialogue = () => {
+        const dialogueSection = scene?.Dialogue[dialogueIndex];
+        if (dialogueSection) {
+            const hasQuestion = dialogueSection?.Ask?.Question && dialogueSection?.Ask?.Options && dialogueSection?.Ask?.Options.length > 0;
+            if (hasQuestion) {
+                return {
+                    isQuestion: true,
+                    ...dialogueSection
+                }
+            } else {
+                return {
+                    isQuestion: false,
+                    ...dialogueSection
+                }
+            }
+        }
+    }
+
 
     return (
         scene && (
@@ -58,12 +78,25 @@ function App() {
                     zoom: scene.Zoom ? scene.Zoom / 100 : 1,
                 }}
             >
-                <TextBox 
-                    speaker={scene.Dialogue[dialogueIndex]?.Speaker}
-                    text={scene.Dialogue[dialogueIndex]?.Text} 
-                    textEffect={scene.Dialogue[dialogueIndex]?.Effect}
-                    handleNextDialogue={handleNextDialogue} 
-                />
+
+
+                {
+                    handleGetDialogue()?.isQuestion ? (
+                        <QuestionBox
+                            question={handleGetDialogue().Ask.Question}
+                            options={handleGetDialogue().Ask.Options}
+                            handleOptionSelect={(option) => console.log("Selected option:", option)}
+                        />
+                    ) : (
+                        <TextBox
+                            speaker={handleGetDialogue().Speaker}
+                            text={handleGetDialogue().Say}
+                            textEffect={handleGetDialogue().Effect}
+                            handleNextDialogue={handleNextDialogue}
+                        />
+                    )
+                }
+
                 {(() => {
                     const currentSpeaker = scene.Dialogue[dialogueIndex]?.Speaker;
                     return (
@@ -74,7 +107,7 @@ function App() {
                     )
                 })()}
                 {
-                    scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
+                    // scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
                 }
             </div>
         )

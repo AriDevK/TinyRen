@@ -46,7 +46,18 @@ type Character struct {
 }
 
 type Dialogue struct {
-	Speaker string `toml:"speaker"`
-	Text    string `toml:"text"`
-	Effect  string `toml:"effect"`
+	Speaker string       `toml:"speaker"`
+	Say     string       `toml:"say"`
+	Effect  string       `toml:"effect"`
+	Ask     *DialogueAsk `toml:"ask,omitempty"`
+}
+
+// type DialogueSay struct {
+// 	Say    string `toml:"say"`
+// 	Effect string `toml:"effect"`
+// }
+
+type DialogueAsk struct {
+	Question string   `toml:"question"`
+	Options  []string `toml:"options"`
 }
