@@ -18,6 +18,7 @@ export namespace toml {
 	    Name: string;
 	    Sprite: string;
 	    Animation: string;
+	    Shown: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Character(source);
@@ -28,6 +29,7 @@ export namespace toml {
 	        this.Name = source["Name"];
 	        this.Sprite = source["Sprite"];
 	        this.Animation = source["Animation"];
+	        this.Shown = source["Shown"];
 	    }
 	}
 	export class CharacterAnimationData {
@@ -93,6 +95,7 @@ export namespace toml {
 	export class Dialogue {
 	    ToGo: string;
 	    Speaker: string;
+	    Shown: string;
 	    Say?: DialogueSay;
 	    Ask?: DialogueAsk;
 	
@@ -104,6 +107,7 @@ export namespace toml {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.ToGo = source["ToGo"];
 	        this.Speaker = source["Speaker"];
+	        this.Shown = source["Shown"];
 	        this.Say = this.convertValues(source["Say"], DialogueSay);
 	        this.Ask = this.convertValues(source["Ask"], DialogueAsk);
 	    }

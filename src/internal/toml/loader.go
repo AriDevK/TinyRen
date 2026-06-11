@@ -90,6 +90,17 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 			reading := false
 			for _, line := range lines {
 				line = strings.TrimSpace(line)
+
+				if strings.HasPrefix(line, "shown") {
+					parts := strings.Split(line, "=")
+					if len(parts) == 2 {
+						value := strings.TrimSpace(parts[1])
+						line = parts[0] + " = \"" + value + "\""
+						processedLines = append(processedLines, line)
+						continue
+					}
+				}
+
 				if strings.HasPrefix(line, "ask.options") {
 					reading = true
 					processedLines = append(processedLines, line)

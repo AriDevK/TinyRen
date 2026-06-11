@@ -7,16 +7,17 @@ zoom = 100
 name = "Kasen"
 sprite = "@assets/characters/kasen.png"
 animation = "enterLeft 1s"
+shown = true
 
 
 [[scene.begin.characters]]
 name = "Reimu"
 sprite = "@assets/characters/reimu.png"
 animation = "enterRight"
+shown = false
 
 
 [[scene.begin.dialogue]]
-togo = "test1"
 speaker = "Kasen"
 say.text = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
 say.effect = "Fade"
@@ -28,9 +29,11 @@ speaker = "Reimu"
 say.text = "Hi, Kasen! This is amazing! I can't wait to see what we can do with this engine!"
 say.effect = "Write"
 
+
 [[scene.begin.dialogue]]
 togo = "test3"
 speaker = "Reimu"
+shown = true
 say.text = "Let's start by creating a new scene and adding some dialogue!"
 say.effect = "Wavy"
 

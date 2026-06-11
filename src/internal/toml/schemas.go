@@ -58,6 +58,7 @@ type Character struct {
 	Name      string `toml:"name"`
 	Sprite    string `toml:"sprite"`
 	Animation string `toml:"animation"`
+	Shown     string `toml:"shown,omitempty"`
 }
 
 func (c Character) GetSprite() string {
@@ -94,6 +95,7 @@ func (c Character) GetAnimationData() CharacterAnimationData {
 type Dialogue struct {
 	ToGo    string       `toml:"togo"`
 	Speaker string       `toml:"speaker"`
+	Shown   string       `toml:"shown,omitempty"`
 	Say     *DialogueSay `toml:"say,omitempty"`
 	Ask     *DialogueAsk `toml:"ask,omitempty"`
 }

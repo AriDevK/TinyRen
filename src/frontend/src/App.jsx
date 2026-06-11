@@ -49,7 +49,28 @@ function App() {
             if (!scene || !scene.Dialogue) index = prev;
             if (prev < scene.Dialogue.length - 1) index = prev + 1;
 
-            setDialogue(handleGetDialogue(index));
+
+            const nextDialogue = handleGetDialogue(index);
+            if (nextDialogue?.Shown) {
+                console.log(`Setting shown for speaker: ${nextDialogue.Speaker} to ${nextDialogue.Shown}`);
+                const character = scene.Characters.find(c => c.Name === nextDialogue.Speaker);
+
+                if (nextDialogue?.Shown === "true"){
+                    character.Shown = "true";
+                } else if (nextDialogue?.Shown === "false") {
+                    character.Shown = "false"
+                } else {
+                    console.warn(`Invalid value for Shown: ${nextDialogue?.Shown}. Expected "true" or "false".`);
+                }
+
+                setScene({
+                    ...scene,
+                    Characters: scene.Characters.map(c => c.Name === character.Name ? character : c)
+                });
+            }
+
+            setDialogue(nextDialogue);
+
             return index;
         });
     }
@@ -119,7 +140,7 @@ function App() {
 
                 {(() => {
                     const currentSpeaker = dialogue?.Speaker;
-                    return scene.Characters.map((character, index) => (
+                    return scene.Characters.filter(character => character.Shown === "true").map((character, index) => (
                         <Character
                             key={index}
                             character={character}
