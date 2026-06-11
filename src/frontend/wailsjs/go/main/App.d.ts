@@ -4,8 +4,10 @@ import {toml} from '../models';
 
 export function GetBackground():Promise<string>;
 
-export function GetScene(arg1:string):Promise<toml.Scene>;
+export function GetCharacterAnimationData(arg1:string):Promise<toml.CharacterAnimationData>;
 
-export function Greet(arg1:string):Promise<string>;
+export function GetCharacterSprite(arg1:toml.Character):Promise<string>;
+
+export function GetScene(arg1:string):Promise<toml.Scene>;
 
 export function PlayAudio(arg1:string):Promise<void>;

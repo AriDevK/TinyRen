@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/aridevk/tinyren/internal/audio"
 	toml "github.com/aridevk/tinyren/internal/toml"
@@ -12,6 +11,7 @@ import (
 type App struct {
 	ctx          context.Context
 	orchestrator toml.Orchestrator
+	scene        *toml.Scene
 }
 
 // NewApp creates a new App application struct
@@ -24,19 +24,31 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context, o toml.Orchestrator) {
 	a.ctx = ctx
 	a.orchestrator = o
-}
-
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
-
-func (a *App) GetBackground() string {
-	return a.orchestrator.Scenes["begin"].Background
+	a.scene = nil
 }
 
 func (a *App) GetScene(key string) toml.Scene {
-	return a.orchestrator.Scenes[key]
+	sc := a.orchestrator.Scenes[key]
+	a.scene = &sc
+	return sc
+}
+
+func (a *App) GetBackground() string {
+	return a.scene.GetBackground()
+}
+
+func (a *App) GetCharacterAnimationData(characterName string) toml.CharacterAnimationData {
+	for _, character := range a.scene.Characters {
+		if character.Name == characterName {
+			return character.GetAnimationData()
+		}
+	}
+
+	return toml.CharacterAnimationData{Animation: "", Duration: ""}
+}
+
+func (a *App) GetCharacterSprite(c toml.Character) string {
+	return c.GetSprite()
 }
 
 func (a *App) PlayAudio(source string) {

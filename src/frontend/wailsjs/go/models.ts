@@ -16,6 +16,20 @@ export namespace toml {
 	        this.Animation = source["Animation"];
 	    }
 	}
+	export class CharacterAnimationData {
+	    Animation: string;
+	    Duration: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new CharacterAnimationData(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Animation = source["Animation"];
+	        this.Duration = source["Duration"];
+	    }
+	}
 	export class DialogueAsk {
 	    Question: string;
 	    Options: string[];

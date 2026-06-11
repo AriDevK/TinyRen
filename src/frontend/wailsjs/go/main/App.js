@@ -6,12 +6,16 @@ export function GetBackground() {
   return window['go']['main']['App']['GetBackground']();
 }
 
-export function GetScene(arg1) {
-  return window['go']['main']['App']['GetScene'](arg1);
+export function GetCharacterAnimationData(arg1) {
+  return window['go']['main']['App']['GetCharacterAnimationData'](arg1);
 }
 
-export function Greet(arg1) {
-  return window['go']['main']['App']['Greet'](arg1);
+export function GetCharacterSprite(arg1) {
+  return window['go']['main']['App']['GetCharacterSprite'](arg1);
+}
+
+export function GetScene(arg1) {
+  return window['go']['main']['App']['GetScene'](arg1);
 }
 
 export function PlayAudio(arg1) {

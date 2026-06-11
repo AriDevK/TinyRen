@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { Greet, GetBackground, GetScene, PlayAudio } from "../wailsjs/go/main/App";
+import { GetBackground, GetScene, PlayAudio } from "../wailsjs/go/main/App";
 import Character from './components/Character';
 import TextBox from './components/TextBox';
 import Speaker from './components/Speaker';
@@ -15,9 +15,10 @@ function App() {
     useEffect(() => {
         GetScene("begin").then(scene => {
             setScene(scene);
-            setBackground(formatBackground(scene.Background));
-            setDialogueIndex(0);
-        })
+            GetBackground().then(bg => {
+                setBackground(bg);
+            });
+        });
     }, []);
 
 
