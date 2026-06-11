@@ -4,10 +4,8 @@ background_music = "@assets/audio/bgm/Ghostly Dream - Snow or Cherry Petal.mp3"
 zoom = 100
 
 [[scene.begin.characters]]
-name = "Kasen"
-sprite = "@assets/characters/kasen.png"
+ref = "k"
 animation = "enterLeft 1s"
-shown = true
 
 
 [[scene.begin.characters]]

@@ -140,7 +140,7 @@ function App() {
 
                 {(() => {
                     const currentSpeaker = dialogue?.Speaker;
-                    return scene.Characters.filter(character => character.Shown === "true").map((character, index) => (
+                    return scene.Characters.filter(character => character.Shown === "true" || character.Shown === "").map((character, index) => (
                         <Character
                             key={index}
                             character={character}

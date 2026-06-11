@@ -8,3 +8,13 @@ author = "John Doe"
 width = 800
 height = 600
 fullscreen = false
+
+[[global.characters]]
+name = "Kasen"
+alias = "k"
+sprite = "@assets/characters/kasen.png"
+
+[[global.characters]]
+name = "Reimu"
+alias = "r"
+sprite = "@assets/characters/reimu.png"

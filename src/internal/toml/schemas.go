@@ -8,8 +8,9 @@ type Orchestrator struct {
 }
 
 type Global struct {
-	Info     Info     `toml:"info"`
-	Settings Settings `toml:"settings"`
+	Info       Info              `toml:"info"`
+	Settings   Settings          `toml:"settings"`
+	Characters []GlobalCharacter `toml:"characters"`
 }
 
 type Info struct {
@@ -23,6 +24,32 @@ type Settings struct {
 	Width      int  `toml:"width"`
 	Height     int  `toml:"height"`
 	Fullscreen bool `toml:"fullscreen"`
+}
+
+type GlobalCharacter struct {
+	Name   string `toml:"name"`
+	Alias  string `toml:"alias"`
+	Sprite string `toml:"sprite"`
+}
+
+func (gc GlobalCharacter) PropsToToml() string {
+	var props []string
+	if gc.Name != "" {
+		props = append(props, "name = \""+gc.Name+"\"")
+	}
+	if gc.Sprite != "" {
+		props = append(props, "sprite = \""+gc.Sprite+"\"")
+	}
+	return strings.Join(props, "\n")
+}
+
+func FindByAlias(alias string, characters []GlobalCharacter) *GlobalCharacter {
+	for _, gc := range characters {
+		if gc.Alias == alias {
+			return &gc
+		}
+	}
+	return nil
 }
 
 func (s Settings) GetWindowStartState() int {
@@ -55,6 +82,7 @@ func (s Scene) GetBackground() string {
 }
 
 type Character struct {
+	ref       string `toml:"ref,omitempty"`
 	Name      string `toml:"name"`
 	Sprite    string `toml:"sprite"`
 	Animation string `toml:"animation"`

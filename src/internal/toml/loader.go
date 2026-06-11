@@ -1,6 +1,7 @@
 package toml
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -19,7 +20,7 @@ func NewOrchestrator(projectPath string) (Orchestrator, error) {
 		return Orchestrator{}, err
 	}
 
-	scenes, err := LoadScenes(scenesPath)
+	scenes, err := LoadScenes(scenesPath, globals.Characters)
 	if err != nil {
 		println("Error loading scenes:", err.Error())
 		return Orchestrator{}, err
@@ -45,7 +46,7 @@ func LoadGlobals(path string) (globals Global, err error) {
 	return orchestrator.Global, nil
 }
 
-func LoadScenes(path string) (scenes map[string]Scene, err error) {
+func LoadScenes(path string, characters []GlobalCharacter) (scenes map[string]Scene, err error) {
 	// get directory contents
 	files, err := os.ReadDir(path)
 	if err != nil {
@@ -59,7 +60,6 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 			continue
 		}
 
-		directoryId := strings.Split(file.Name(), "-")[0]
 		content, err := os.ReadDir(filepath.Join(path, file.Name()))
 		if err != nil {
 			return nil, err
@@ -77,14 +77,6 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 				return nil, err
 			}
 
-			// get string(data) and check if there is a text with pattern
-			// ask.options = [
-			//     "text", #goto something
-			// ]
-			// to replace them with
-			// ask.options = [
-			//     {text = "text", togo = "something"},
-			// ]
 			lines := strings.Split(string(data), "\n")
 			var processedLines []string
 			reading := false
@@ -99,6 +91,22 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 						processedLines = append(processedLines, line)
 						continue
 					}
+				}
+
+				if strings.HasPrefix(line, "ref") {
+					parts := strings.Split(line, "=")
+					if len(parts) == 2 {
+						reference := strings.TrimSpace(strings.ReplaceAll(parts[1], "\"", ""))
+						character := FindByAlias(reference, characters)
+						if character != nil {
+							line = character.PropsToToml()
+						} else {
+							log.Printf("Warning: No character found with alias '%s'", reference)
+						}
+						processedLines = append(processedLines, line)
+					}
+
+					continue
 				}
 
 				if strings.HasPrefix(line, "ask.options") {
@@ -144,7 +152,7 @@ func LoadScenes(path string) (scenes map[string]Scene, err error) {
 			}
 
 			dataStr := strings.Join(processedLines, "\n")
-			rawSceneContent = append(rawSceneContent, dataStr+"\n"+"index = "+directoryId)
+			rawSceneContent = append(rawSceneContent, dataStr)
 		}
 	}
 
