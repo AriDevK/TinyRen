@@ -149,7 +149,7 @@ function App() {
                     dialogue?.Type === "input" ?
                         (
                             <TextInput
-                                label={dialogue.Input.Label}
+                                label={dialogue.Speaker ? `${dialogue.Speaker}: ${dialogue.Input.Label}` : dialogue.Input.Label}
                                 value=""
                                 placeholder={dialogue.Input.Placeholder}
                                 onSubmit={(value) => {
@@ -179,7 +179,7 @@ function App() {
                         )
                         : dialogue?.Type === "ask" ? (
                             <QuestionBox
-                                question={dialogue?.Ask?.Question}
+                                question={dialogue?.Speaker ? `${dialogue.Speaker}: ${dialogue.Ask?.Question}` : dialogue.Ask?.Question}
                                 options={dialogue?.Ask?.Options}
                                 handleOptionSelect={handleGoTo}
                             />
