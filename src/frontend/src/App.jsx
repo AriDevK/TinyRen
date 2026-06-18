@@ -154,8 +154,32 @@ function App() {
                                 placeholder={dialogue.Input.Placeholder}
                                 onSubmit={(value) => {
                                     if (dialogue.Input.OnSubmitSet) {
-                                        let [varName, varValue] = dialogue.Input.OnSubmitSet.split("=");
-                                        varValue = varValue.replace("<input>", `${value}`);
+                                        let varData = dialogue.Input.OnSubmitSet.split("=");
+                                        let varName = varData[0].trim();
+                                        let varValue = varData.slice(1).join("=").trim();
+                                        varValue = varValue.replaceAll("<input>", `${value}`);
+                                        console.log(`Raw varValue after replacement: ${varValue}`);
+                                        varValue = varValue.replaceAll(/\$\{([^}]*)\}/g, (_, expr) => {
+
+                                            if (expr.includes("vars.")) {
+                                                // take all vars. texts until an operator or the end of the string or a space or an )
+                                                const varMatches = expr.match(/vars\.[a-zA-Z0-9_]+/g);
+                                                if (varMatches) {
+                                                    varMatches.forEach(vm => {
+                                                        const varKey = vm.split(".")[1];
+                                                        const varVal = vars[varKey];
+                                                        console.log(`Replacing ${vm} with value: ${varVal}`);
+                                                        expr = expr.replaceAll(vm, JSON.stringify(varVal));
+                                                    });
+                                                }
+                                            }
+
+                                            return Function(`return (${expr})`)();
+                                        });
+                                        console.log(`Evaluated varValue: ${varValue}`);
+
+
+                                        console.log(`Setting variable "${varName}" to value: ${varValue} xd`);
                                         SetVar(varName, varValue)
                                             .then(() => {
                                                 GetVars()

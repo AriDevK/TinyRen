@@ -1,6 +1,6 @@
 [vars]
   [vars.player]
     gender = "Non-binary"
-    name = " Sr. ariadne"
+    name = "Ms. Ariadne"
   [vars.world]
     name = "Ren'Py in Go"

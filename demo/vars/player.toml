@@ -1,6 +1,6 @@
 [vars.player]
 name = "Player"
-gender = "Non-binary"
+gender = "female"
 
 [vars.world]
 name = "Ren'Py in Go"
