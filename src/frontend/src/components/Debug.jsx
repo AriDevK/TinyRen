@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './Debug.css';
-import Highlight from 'react-highlight'
-import json from 'highlight.js/styles/atom-one-dark.css'
+import "@andypf/json-viewer"
 
 
 export default function Debug({ scene, dialogue, vars }) {
@@ -9,6 +8,23 @@ export default function Debug({ scene, dialogue, vars }) {
     const [activeTab, setActiveTab] = useState("variables");
 
     const isActiveTab = (tabName) => activeTab === tabName ? "active" : "";
+
+    const tabContent = (content) => {
+        return (
+            <andypf-json-viewer
+                indent="4"
+                expanded="true"
+                theme="onedark"
+                show-data-types="false"
+                show-toolbar="false"
+                expand-icon-type="circle"
+                show-copy="true"
+                show-size="false"
+                expand-empty="false"
+                data={JSON.stringify(content, null, 2)}
+            ></andypf-json-viewer>
+        )
+    }
 
     return (
         scene && (
@@ -23,19 +39,13 @@ export default function Debug({ scene, dialogue, vars }) {
                         <button className="tabButton" onClick={() => setShowDebug(false)}>Close Debug</button>
                     </div>
                     <div className="tabContent" style={{ display: activeTab === "variables" ? "block" : "none" }}>
-                        <Highlight className='language-json'>
-                            {JSON.stringify(vars, null, 2)}
-                        </Highlight>
-                    </div>  
+                        {tabContent(vars)}
+                    </div>
                     <div className="tabContent" style={{ display: activeTab === "scene" ? "block" : "none" }}>
-                        <Highlight className='language-json'>
-                            {JSON.stringify(scene, null, 2)}
-                        </Highlight>
+                        {tabContent(scene)}
                     </div>
                     <div className="tabContent" style={{ display: activeTab === "dialogue" ? "block" : "none" }}>
-                        <Highlight className='language-json'>
-                            {JSON.stringify(dialogue, null, 2)}
-                        </Highlight>
+                        {tabContent(dialogue)}
                     </div>
 
                 </div>
