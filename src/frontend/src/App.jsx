@@ -7,18 +7,28 @@ import Speaker from './components/Speaker';
 import QuestionBox from './components/QuestionBox';
 import TextInput from './components/TextInput';
 import Debug from './components/Debug';
+import { useNavigate } from 'react-router-dom'; 
 
 
 
-function App() {
+function App({ sceneName }) {
     const [vars, setVars] = useState({});
     const [scene, setScene] = useState(null);
     const [background, setBackground] = useState(null);
     const [dialogue, setDialogue] = useState(null);
     const [dialogueIndex, setDialogueIndex] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        GetScene("begin").then(fetchedScene => {
+        try {
+            document.body.style.animation = 'none';
+            document.body.offsetWidth;
+            document.body.style.animation = 'fadeIn 1s ease-in-out';
+            // wait a second
+        } catch (e) {
+        }
+
+        GetScene(sceneName).then(fetchedScene => {
             setScene(fetchedScene);
             handleInitDialogue(fetchedScene);
 
@@ -30,7 +40,7 @@ function App() {
                 setVars(vars);
             });
         });
-    }, []);
+    }, [sceneName]);
 
 
     useEffect(() => {
@@ -86,6 +96,12 @@ function App() {
                 handleSave();
             }
 
+
+            if (prevDialogue?.GoTo) {
+                handleGoTo(prevDialogue.GoTo);
+                return prev;
+            }
+
             let index = prev;
             if (!scene || !scene.Dialogue) index = prev;
             if (prev < scene.Dialogue.length - 1) index = prev + 1;
@@ -124,11 +140,16 @@ function App() {
     const handleGoTo = (goTo) => {
         if (!scene || !scene.Dialogue) return;
 
-        console.log(`Handling GoTo: ${goTo}`);
-
         const actualDialogue = handleGetDialogue(dialogueIndex);
         if (actualDialogue?.Save) {
             handleSave();
+        }
+
+        if (goTo.startsWith(">")) {
+            console.table({text:`Navigating to new scenes: ${goTo.substring(1)}`, navigate: `/${goTo.substring(1)}`});
+            const targetSceneName = goTo.substring(1);
+            navigate(`/${targetSceneName}`);
+            return;
         }
 
         const targetIndex = scene.Dialogue.findIndex(d => d.ToGo === goTo);

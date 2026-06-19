@@ -19,6 +19,7 @@ shown = false
 speaker = "Kasen"
 say.text = "Hello, Reimu! Welcome to the world of Ren'Py in Go!"
 say.effect = "Fade"
+goto=">hello"
 
 
 [[scene.begin.dialogue]]
@@ -32,6 +33,7 @@ save = true
 
 
 [[scene.begin.dialogue]]
+togo="hello_player"
 speaker = "Reimu"
 say.text = "Hello ${vars.player.name}! It's great to meet you. I'm excited to show you ${vars.world.name} and all the amazing things we can create with it!"
 say.effect = "Write"

@@ -117,6 +117,7 @@ export namespace toml {
 	export class Dialogue {
 	    Type: string;
 	    ToGo: string;
+	    GoTo: string;
 	    Speaker: string;
 	    Shown: string;
 	    Say?: DialogueSay;
@@ -132,6 +133,7 @@ export namespace toml {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Type = source["Type"];
 	        this.ToGo = source["ToGo"];
+	        this.GoTo = source["GoTo"];
 	        this.Speaker = source["Speaker"];
 	        this.Shown = source["Shown"];
 	        this.Say = this.convertValues(source["Say"], DialogueSay);

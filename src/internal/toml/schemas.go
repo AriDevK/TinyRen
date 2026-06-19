@@ -168,7 +168,8 @@ func (c Character) GetAnimationData() CharacterAnimationData {
 
 type Dialogue struct {
 	Type    DialogueType
-	ToGo    string         `toml:"togo"`
+	ToGo    string         `toml:"togo,omitempty"`
+	GoTo    string         `toml:"goto,omitempty"`
 	Speaker string         `toml:"speaker"`
 	Shown   string         `toml:"shown,omitempty"`
 	Say     *DialogueSay   `toml:"say,omitempty"`

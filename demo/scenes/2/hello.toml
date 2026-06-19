@@ -1,2 +1,12 @@
 [scene.hello]
-background = "black"
+background = "@assets/bg/base2.jpg"
+
+[[scene.hello.characters]]
+ref = "k"
+animation = "enterLeft 3s"
+
+[[scene.hello.dialogue]]
+speaker = "Kasen"
+say.text = "Hello, Kasen! Welcome to the world of Ren'Py in Go!"
+say.effect = "Fade"
+goto=">begin"
