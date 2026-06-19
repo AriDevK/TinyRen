@@ -6,6 +6,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/aridevk/tinyren/internal/constants"
+	"github.com/aridevk/tinyren/internal/saver"
 )
 
 type DialogueType string
@@ -42,7 +43,7 @@ func (o Orchestrator) Save() error {
 		return err
 	}
 
-	_, err = fileWriter.WriteString(rawVarsContentStr.String())
+	err = saver.Save(fileWriter, rawVarsContentStr.String())
 	if err != nil {
 		return err
 	}

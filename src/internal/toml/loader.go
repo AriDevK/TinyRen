@@ -8,6 +8,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/aridevk/tinyren/internal/constants"
+	"github.com/aridevk/tinyren/internal/saver"
 )
 
 func NewOrchestrator(projectPath string) (Orchestrator, error) {
@@ -62,7 +63,8 @@ func LoadVars(path string) (vars map[string]any, err error) {
 
 	// if any filte is called _v.toml load the vars from there
 	if _, err := os.Stat(constants.SAVE_FILE_PATH); err == nil {
-		data, err := os.ReadFile(constants.SAVE_FILE_PATH)
+		// data, err := os.ReadFile(constants.SAVE_FILE_PATH)
+		data, err := saver.Load(constants.SAVE_FILE_PATH)
 		if err != nil {
 			return nil, err
 		}
@@ -105,7 +107,7 @@ func LoadVars(path string) (vars map[string]any, err error) {
 		return nil, err
 	}
 
-	os.WriteFile(constants.SAVE_FILE_PATH, []byte(rawVarsContentStr), 0644)
+	saver.CreateSaveFileIfNotExists(constants.SAVE_FILE_PATH, rawVarsContentStr)
 	return orchestrator.Vars, nil
 }
 
