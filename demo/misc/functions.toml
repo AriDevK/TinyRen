@@ -1,4 +1,0 @@
-[func.strings]
-normalizeName = "f()=>`${vars.player.gender == 'Male' ? 'Mr.' : 'Ms.'} ${vars.player.name}`"
-setPlayerName = "f(name)=>{vars.player.name = <name>}"
-addExclamation = "f(text)=> <text> + '!'"
