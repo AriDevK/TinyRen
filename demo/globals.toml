@@ -10,12 +10,16 @@ height = 600
 fullscreen = false
 disable_resize = true
 
-[[global.characters]]
-name = "Kasen"
-alias = "k"
-sprite = "@assets/characters/kasen.png"
+[global.menu]
+background= "@assets/bg/menu.png"
+background_music = "@assets/menu_music.mp3"
 
 [[global.characters]]
-name = "Reimu"
-alias = "r"
-sprite = "@assets/characters/reimu.png"
+name = "Aoi Mizuno"
+alias = "a"
+sprite = "@assets/characters/aoi.png"
+
+[[global.characters]]
+name = "Yuna Tachibana"
+alias = "y"
+sprite = "@assets/characters/yuna.png"

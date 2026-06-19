@@ -1,0 +1,25 @@
+.saving-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999999999999;
+}
+
+.saving-text {
+    color: white;
+    font-size: 2em;
+    font-family: 'Arial', sans-serif;
+    animation: savingFadeIn 1s infinite;
+}
+
+@keyframes savingFadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}

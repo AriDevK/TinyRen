@@ -29,7 +29,7 @@ export default function TextBox({ speaker, text, textEffect, handleNextDialogue,
         <div className="textBox">
             <div className="speaker">{speaker}:</div>
             <p className={`text text${textEffect}`}>{displayedText}</p>
-            <button onClick={handleNextDialogue} className="nextButton">
+            <button onClick={() => handleNextDialogue()} className="nextButton">
                 &gt;
             </button>
         </div>

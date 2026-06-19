@@ -55,6 +55,7 @@ type Global struct {
 	Info       Info              `toml:"info"`
 	Settings   Settings          `toml:"settings"`
 	Characters []GlobalCharacter `toml:"characters"`
+	Menu       Menu              `toml:"menu"`
 }
 
 type Info struct {
@@ -69,6 +70,24 @@ type Settings struct {
 	Height        int  `toml:"height"`
 	Fullscreen    bool `toml:"fullscreen"`
 	DisableResize bool `toml:"disable_resize,omitempty"`
+}
+
+type Menu struct {
+	Background      string `toml:"background"`
+	BackgroundMusic string `toml:"background_music"`
+}
+
+func (m Menu) GetBackground() string {
+	if m.Background == "" {
+		return "black"
+	}
+
+	if strings.HasPrefix(m.Background, "@") {
+		backgroundUrl := strings.TrimPrefix(m.Background, "@")
+		return "url('" + backgroundUrl + "')"
+	}
+
+	return m.Background
 }
 
 type GlobalCharacter struct {

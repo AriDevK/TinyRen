@@ -50,7 +50,7 @@ export default function Debug({ scene, dialogue, vars }) {
 
                 </div>
             ) : (
-                <button onClick={() => setShowDebug(true)} style={{ position: "absolute", top: 10, right: 10, zIndex: 1000 }}>
+                <button onClick={() => setShowDebug(true)} style={{ position: "absolute", top: 10, right: 50, zIndex: 1000 }}>
                     Show Debug
                 </button>
             )

@@ -163,6 +163,20 @@ export namespace toml {
 	
 	
 	
+	export class Menu {
+	    Background: string;
+	    BackgroundMusic: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Menu(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Background = source["Background"];
+	        this.BackgroundMusic = source["BackgroundMusic"];
+	    }
+	}
 	export class Scene {
 	    Index: number;
 	    Name: string;

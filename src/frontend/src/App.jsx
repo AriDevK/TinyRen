@@ -8,6 +8,8 @@ import QuestionBox from './components/QuestionBox';
 import TextInput from './components/TextInput';
 import Debug from './components/Debug';
 import { useNavigate } from 'react-router-dom'; 
+import Saving from './components/Saving';
+import Exit from './components/Exit';
 
 
 
@@ -17,6 +19,7 @@ function App({ sceneName }) {
     const [background, setBackground] = useState(null);
     const [dialogue, setDialogue] = useState(null);
     const [dialogueIndex, setDialogueIndex] = useState(0);
+    const [saving, setSaving] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -58,6 +61,7 @@ function App({ sceneName }) {
 
 
     const handleSave = () => {
+        setSaving(true);
         SetVar("vars.env.scene", scene ? scene.Name : 'notfound')
         .then(() => {
             console.log(`Scene set to: ${scene ? scene.Name : 'notfound'}`);
@@ -82,6 +86,10 @@ function App({ sceneName }) {
         .catch(err => {
             console.error(`Error saving game: ${err}`);
         });
+
+        setTimeout(() => {
+            setSaving(false);
+        }, 1000);
     }
 
     const handleInitDialogue = (sceneArg) => {
@@ -179,6 +187,10 @@ function App({ sceneName }) {
                     vars={vars}
                 />
 
+                <Exit />
+
+                <Saving show={saving} />
+
                 {
                     dialogue?.Type === "input" ?
                         (
@@ -250,6 +262,7 @@ function App({ sceneName }) {
                             )
                 }
 
+                <div id="character-container">
                 {(() => {
                     const currentSpeaker = dialogue?.Speaker;
                     return scene.Characters.filter(character => character.Shown === "true" || character.Shown === "").map((character, index) => (
@@ -261,9 +274,10 @@ function App({ sceneName }) {
                         />
                     ))
                 })()}
+                </div>
 
                 {
-                    // scene.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
+                    scene?.BackgroundMusic && <Speaker source={scene.BackgroundMusic} />
                 }
             </div>
         )

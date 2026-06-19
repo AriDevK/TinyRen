@@ -6,6 +6,7 @@ import (
 
 	"github.com/aridevk/tinyren/internal/audio"
 	toml "github.com/aridevk/tinyren/internal/toml"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -34,8 +35,30 @@ func (a *App) GetScene(key string) toml.Scene {
 	return sc
 }
 
+func (a *App) GetMenu() toml.Menu {
+	return a.orchestrator.Global.Menu
+}
+
+func (a *App) GetMenuBackground() string {
+	return a.orchestrator.Global.Menu.GetBackground()
+}
+
 func (a *App) GetBackground() string {
 	return a.scene.GetBackground()
+}
+
+func (a *App) ShowExitMessage() bool {
+	var msg, _ = runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Title:   "Exit",
+		Message: "Are you sure you want to exit?",
+		Type:    runtime.WarningDialog,
+		Buttons: []string{"Yes", "No"},
+	})
+	return msg == "Yes"
+}
+
+func (a *App) Close() {
+	runtime.Quit(a.ctx)
 }
 
 func (a *App) GetCharacterAnimationData(characterName string) toml.CharacterAnimationData {

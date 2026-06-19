@@ -1,12 +1,12 @@
 [scene.hello]
-background = "@assets/bg/base2.jpg"
+background = "@assets/bg/yard.png"
 
 [[scene.hello.characters]]
-ref = "k"
+ref = "a"
 animation = "enterLeft 3s"
 
 [[scene.hello.dialogue]]
-speaker = "Kasen"
-say.text = "Hello, Kasen! Welcome to the world of Ren'Py in Go!"
+speaker = "Aoi Mizuno"
+say.text = "Hello, Yuna Tachibana! Welcome to the world of Ren'Py in Go!"
 say.effect = "Fade"
 goto=">begin"
