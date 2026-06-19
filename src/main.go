@@ -80,6 +80,7 @@ func main() {
 			app,
 		},
 		WindowStartState: options.WindowStartState(o.Global.Settings.GetWindowStartState()),
+		DisableResize:    o.Global.Settings.DisableResize,
 	})
 
 	if err != nil {

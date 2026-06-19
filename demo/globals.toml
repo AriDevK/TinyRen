@@ -8,6 +8,7 @@ author = "John Doe"
 width = 800
 height = 600
 fullscreen = false
+disable_resize = true
 
 [[global.characters]]
 name = "Kasen"

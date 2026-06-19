@@ -65,9 +65,10 @@ type Info struct {
 }
 
 type Settings struct {
-	Width      int  `toml:"width"`
-	Height     int  `toml:"height"`
-	Fullscreen bool `toml:"fullscreen"`
+	Width         int  `toml:"width"`
+	Height        int  `toml:"height"`
+	Fullscreen    bool `toml:"fullscreen"`
+	DisableResize bool `toml:"disable_resize,omitempty"`
 }
 
 type GlobalCharacter struct {
