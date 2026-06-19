@@ -1,3 +1,6 @@
 src/build/bin
+src/build/windows
+src/build/darwin
 src/frontend/node_modules
 src/frontend/dist
+src/frontend/wailsjs
