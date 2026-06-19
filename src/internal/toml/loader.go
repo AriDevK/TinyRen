@@ -67,13 +67,15 @@ func LoadVars(path string) (vars map[string]any, err error) {
 			return nil, err
 		}
 
-		var orchestrator Orchestrator
-		_, err = toml.Decode(string(data), &orchestrator)
-		if err != nil {
-			return nil, err
-		}
+		if len(data) != 0 {
+			var orchestrator Orchestrator
+			_, err = toml.Decode(string(data), &orchestrator)
+			if err != nil {
+				return nil, err
+			}
 
-		return orchestrator.Vars, nil
+			return orchestrator.Vars, nil
+		}
 	}
 
 	var rawVarsContent []string
@@ -94,7 +96,7 @@ func LoadVars(path string) (vars map[string]any, err error) {
 	rawVarsContentStr := strings.Join(rawVarsContent, "\n")
 	rawVarsContentStr +=
 		"\n\n[vars.env]\n" +
-			"scene = \"meow\"\n" +
+			"scene = \"\"\n" +
 			"dialogue_idx = 0\n"
 
 	var orchestrator Orchestrator
