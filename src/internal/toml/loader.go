@@ -92,6 +92,11 @@ func LoadVars(path string) (vars map[string]any, err error) {
 	}
 
 	rawVarsContentStr := strings.Join(rawVarsContent, "\n")
+	rawVarsContentStr +=
+		"\n\n[vars.env]\n" +
+			"scene = \"meow\"\n" +
+			"dialogue_idx = 0\n"
+
 	var orchestrator Orchestrator
 	_, err = toml.Decode(rawVarsContentStr, &orchestrator)
 	if err != nil {
@@ -134,6 +139,11 @@ func LoadScenes(path string, characters []GlobalCharacter) (scenes map[string]Sc
 			}
 
 			lines := strings.Split(string(data), "\n")
+			if len(lines) > 1 {
+				sceneName := strings.TrimSuffix(item.Name(), ".toml")
+				lines = append(lines[:1], append([]string{"name = \"" + sceneName + "\""}, lines[1:]...)...)
+			}
+
 			var processedLines []string
 			reading := false
 			for _, line := range lines {

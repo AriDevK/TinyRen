@@ -27,7 +27,7 @@ input.label = "What's your name?"
 input.placeholder = "Enter your name"
 input.type = "text"
 input.validation = "nonempty"
-input.on_submit_set = "vars.player.name = ${(vars.player.gender).startsWith('m') ? 'Mr.' : 'Ms.'} <input>"
+input.on_submit_set = "vars.player.name = ${console.log('ok') ?? ''} ${(vars.player.gender).startsWith('m') ? 'Mr.' : 'Ms.'} <input>"
 save = true
 
 

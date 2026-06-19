@@ -163,6 +163,7 @@ export namespace toml {
 	
 	export class Scene {
 	    Index: number;
+	    Name: string;
 	    Background: string;
 	    BackgroundMusic: string;
 	    Zoom: number;
@@ -176,6 +177,7 @@ export namespace toml {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Index = source["Index"];
+	        this.Name = source["Name"];
 	        this.Background = source["Background"];
 	        this.BackgroundMusic = source["BackgroundMusic"];
 	        this.Zoom = source["Zoom"];

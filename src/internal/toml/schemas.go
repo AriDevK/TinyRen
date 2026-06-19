@@ -104,6 +104,7 @@ func (s Settings) GetWindowStartState() int {
 
 type Scene struct {
 	Index           int         `toml:"index"`
+	Name            string      `toml:"name"`
 	Background      string      `toml:"background"`
 	BackgroundMusic string      `toml:"background_music"`
 	Zoom            float64     `toml:"zoom"`

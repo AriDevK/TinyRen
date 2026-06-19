@@ -47,6 +47,33 @@ function App() {
     }, [scene, dialogueIndex, dialogue]);
 
 
+    const handleSave = () => {
+        SetVar("vars.env.scene", scene ? scene.Name : 'notfound')
+        .then(() => {
+            console.log(`Scene set to: ${scene ? scene.Name : 'notfound'}`);
+        })
+        .catch(err => {
+            console.error(`Error setting scene variable: ${err}`);
+        });
+
+        SetVar("vars.env.dialogue_idx", dialogueIndex)
+        .then(() => {
+            console.log(`Dialogue index set to: ${dialogueIndex}`);
+        })
+        .catch(err => {
+            console.error(`Error setting dialogue index variable: ${err}`);
+        });
+
+        Save()
+        .then(newVars => {
+            console.log("Vars after saving:", newVars);
+            setVars(newVars);
+        })
+        .catch(err => {
+            console.error(`Error saving game: ${err}`);
+        });
+    }
+
     const handleInitDialogue = (sceneArg) => {
         setDialogueIndex(0);
         setDialogue(handleGetDialogue(0, sceneArg));
@@ -56,14 +83,7 @@ function App() {
         setDialogueIndex(prev => {
             const prevDialogue = handleGetDialogue(prev);
             if (prevDialogue?.Save) {
-                Save()
-                    .then(newVars => {
-                        console.log("Vars after saving:", newVars);
-                        setVars(newVars);
-                    })
-                    .catch(err => {
-                        console.error(`Error saving game: ${err}`);
-                    });
+                handleSave();
             }
 
             let index = prev;
@@ -108,14 +128,7 @@ function App() {
 
         const actualDialogue = handleGetDialogue(dialogueIndex);
         if (actualDialogue?.Save) {
-            Save()
-            .then(newVars => {
-                console.log("Vars after saving:", newVars);
-                setVars(newVars);
-            })
-            .catch(err => {
-                console.error(`Error saving game: ${err}`);
-            });
+            handleSave();
         }
 
         const targetIndex = scene.Dialogue.findIndex(d => d.ToGo === goTo);
@@ -156,10 +169,10 @@ function App() {
                                     if (dialogue.Input.OnSubmitSet) {
                                         let varData = dialogue.Input.OnSubmitSet.split("=");
                                         let varName = varData[0].trim();
-                                        let varValue = varData.slice(1).join("=").trim();
-                                        varValue = varValue.replaceAll("<input>", `${value}`);
-                                        console.log(`Raw varValue after replacement: ${varValue}`);
-                                        varValue = varValue.replaceAll(/\$\{([^}]*)\}/g, (_, expr) => {
+                                        let varValue = varData.slice(1)
+                                            .join("=").trim()
+                                            .replaceAll("<input>", `${value}`)
+                                            .replaceAll(/\$\{([^}]*)\}/g, (_, expr) => {
 
                                             if (expr.includes("vars.")) {
                                                 // take all vars. texts until an operator or the end of the string or a space or an )
@@ -176,10 +189,7 @@ function App() {
 
                                             return Function(`return (${expr})`)();
                                         });
-                                        console.log(`Evaluated varValue: ${varValue}`);
 
-
-                                        console.log(`Setting variable "${varName}" to value: ${varValue} xd`);
                                         SetVar(varName, varValue)
                                             .then(() => {
                                                 GetVars()

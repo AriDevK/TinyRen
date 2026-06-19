@@ -1,6 +1,11 @@
-[vars]
-  [vars.player]
-    gender = "Non-binary"
-    name = "Ms. Ariadne"
-  [vars.world]
-    name = "Ren'Py in Go"
+
+[vars.player]
+name = "Player"
+gender = "male"
+
+[vars.world]
+name = "Ren'Py in Go"
+
+[vars.env]
+scene = "meow"
+dialogue_idx = 0
